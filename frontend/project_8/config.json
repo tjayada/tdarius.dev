@@ -1,0 +1,11 @@
+{
+  "title": "Sudoku Solver Using Computer Vision",
+  "firstCommit": "Jul 31, 2022",
+  "lastCommit": "Jul 31, 2022",
+  "abstract": "A Python script that solves a sudoku puzzle using computer vision. Once the position of the sudoku is determined, number-templates are being matched with different scaling factors. The number with the most matches will be mapped into a 9x9 array. Afterwards a simple recursive algorithm solves the sudoku and the solution gets printed out.",
+  "urls": {
+    "github": "https://github.com/tjayada/sudoku_solver_cv",
+    "demo": null
+  }
+}
+

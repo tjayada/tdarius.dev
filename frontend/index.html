@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Portfolio</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon/favicon.svg">
+    <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="assets/favicon/site.webmanifest">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        /* make the projects container the scroll snapping container */
+        #projects-container {
+            height: 100vh;
+            overflow-y: auto;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        .project {
+            height: 100vh;
+            scroll-snap-align: start;
+            scroll-snap-stop: normal;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 80px;
+            position: relative;
+        }
+
+        .project-content {
+            display: flex;
+            gap: 60px;
+            max-width: 1400px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .text-field, .demo-field {
+            flex: 1;
+            z-index: 1;
+        }
+
+        .text-field {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .project-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .project-dates {
+            font-size: 0.95rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .project-abstract {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #333;
+            max-width: 600px;
+        }
+
+        .demo-field {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+        }
+
+        .demo-field:hover {
+            transform: scale(1.02);
+        }
+
+        .demo-container {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .demo-media {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        .demo-media.active {
+            opacity: 1;
+        }
+
+        .demo-placeholder {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Alternating layouts */
+        .layout-left .project-content {
+            flex-direction: row;
+        }
+
+        .layout-right .project-content {
+            flex-direction: row-reverse;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 16px 24px;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            background: #ddd;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot:hover {
+            background: #999;
+        }
+
+        .progress-dot.active {
+            width: 32px;
+            border-radius: 16px;
+            background: #333;
+        }
+
+        /* Pastel colors */
+        .project:nth-child(1) { background: #FFE5E5; }
+        .project:nth-child(2) { background: #E5F3FF; }
+        .project:nth-child(3) { background: #F0FFE5; }
+        .project:nth-child(4) { background: #F5E5FF; }
+        .project:nth-child(5) { background: #F5E5FF; }
+        .project:nth-child(6) { background: #E5FFFF; }
+        .project:nth-child(7) { background: #FFE5F5; }
+        .project:nth-child(8) { background: #FFFFE5; }
+        .project:nth-child(9) { background: #E5FFE5; }
+        .project:nth-child(10) { background: #FFE5E5; }
+        .project:nth-child(11) { background: #FFF5E5; }
+
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .project {
+                padding: 40px 30px;
+            }
+
+            .project-content {
+                flex-direction: column !important;
+                gap: 30px;
+            }
+
+            .project-title {
+                font-size: 1.8rem;
+            }
+
+            .project-abstract {
+                font-size: 1rem;
+            }
+
+            .progress-bar {
+                bottom: 20px;
+                padding: 12px 20px;
+            }
+        }
+        /* Scroll-snap control panel */
+        .snap-controls {
+            position: fixed;
+            right: 18px;
+            top: 18px;
+            z-index: 1200;
+            background: rgba(255,255,255,0.95);
+            border-radius: 10px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            font-family: inherit;
+        }
+
+        .snap-controls fieldset {
+            border: none;
+            padding: 12px 14px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+            min-width: 220px;
+        }
+
+        .snap-controls legend {
+            font-weight: 600;
+            margin-right: 8px;
+            font-size: 0.9rem;
+        }
+
+        .snap-controls label {
+            font-size: 0.85rem;
+            color: #222;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .snap-controls select,
+        .snap-controls input[type="checkbox"] {
+            margin-left: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div id="projects-container"></div>
+    <div class="progress-bar" id="progress-bar"></div>
+    <div class="loading" id="loading">Loading projects...</div>
+
+    <script>
+        const projectsContainer = document.getElementById('projects-container');
+        const progressBar = document.getElementById('progress-bar');
+        const loading = document.getElementById('loading');
+        
+        const DEMO_CYCLE_INTERVAL = 3000; // 3 seconds between demo changes
+        const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        const VIDEO_EXTENSIONS = ['mp4', 'webm', 'ogg'];
+        
+        // Pastel color palette
+        const pastelColors = [
+            '#E5FFE5', '#E5F3FF', '#FFE5E5', '#F5E5FF', '#FFF5E5', '#E5F3FF',
+            '#E5FFFF','#F0FFE5', '#FFFFE5', '#E5FFFF', '#E5F3FF',
+        ];
+
+        // Find all demo files for a project directory
+        async function findDemoFiles(projectDir) {
+            const demos = [];
+            let index = 0;
+            
+            while (true) {
+                let found = false;
+                
+                // Try image extensions
+                for (const ext of IMAGE_EXTENSIONS) {
+                    const path = `${projectDir}/demo_${index}.${ext}`;
+                    try {
+                        const response = await fetch(path, { method: 'HEAD' });
+                        if (response.ok) {
+                            demos.push({ type: 'image', path, index });
+                            found = true;
+                            break;
+                        }
+                    } catch (e) {
+                        // File doesn't exist, continue
+                    }
+                }
+                
+                // Try video extensions if no image found
+                if (!found) {
+                    for (const ext of VIDEO_EXTENSIONS) {
+                        const path = `${projectDir}/demo_${index}.${ext}`;
+                        try {
+                            const response = await fetch(path, { method: 'HEAD' });
+                            if (response.ok) {
+                                demos.push({ type: 'video', path, index });
+                                found = true;
+                                break;
+                            }
+                        } catch (e) {
+                            // File doesn't exist, continue
+                        }
+                    }
+                }
+                
+                if (!found) break;
+                index++;
+            }
+            
+            return demos;
+        }
+
+        // Load project config
+        async function loadProjectConfig(projectDir) {
+            try {
+                const response = await fetch(`${projectDir}/config.json`);
+                if (!response.ok) throw new Error(`Failed to load config for ${projectDir}`);
+                return await response.json();
+            } catch (error) {
+                console.error(`Error loading config for ${projectDir}:`, error);
+                return null;
+            }
+        }
+
+        // Create demo element
+        function createDemoElement(demo, isActive) {
+            if (demo.type === 'image') {
+                const img = document.createElement('img');
+                img.src = demo.path;
+                img.className = `demo-media ${isActive ? 'active' : ''}`;
+                img.alt = 'Project demo';
+                return img;
+            } else if (demo.type === 'video') {
+                const video = document.createElement('video');
+                video.src = demo.path;
+                video.className = `demo-media ${isActive ? 'active' : ''}`;
+                video.muted = true;
+                video.loop = true;
+                video.autoplay = isActive;
+                video.playsInline = true;
+                if (isActive) {
+                    video.play().catch(e => console.log('Video autoplay prevented:', e));
+                }
+                return video;
+            }
+            return null;
+        }
+
+        // Store intervals for cleanup
+        const demoIntervals = new Map();
+        
+        // Setup demo cycling for a project
+        function setupDemoCycling(projectIndex, demos, container) {
+            if (demos.length <= 1) return;
+            
+            // Clear existing interval if any
+            if (demoIntervals.has(projectIndex)) {
+                clearInterval(demoIntervals.get(projectIndex));
+            }
+            
+            let currentIndex = 0;
+            const mediaElements = container.querySelectorAll('.demo-media');
+            
+            const cycleInterval = setInterval(() => {
+                // Remove active class from current
+                mediaElements[currentIndex].classList.remove('active');
+                if (mediaElements[currentIndex].tagName === 'VIDEO') {
+                    mediaElements[currentIndex].pause();
+                }
+                
+                // Move to next
+                currentIndex = (currentIndex + 1) % demos.length;
+                
+                // Add active class to next
+                mediaElements[currentIndex].classList.add('active');
+                if (mediaElements[currentIndex].tagName === 'VIDEO') {
+                    mediaElements[currentIndex].play().catch(e => console.log('Video play prevented:', e));
+                }
+            }, DEMO_CYCLE_INTERVAL);
+            
+            demoIntervals.set(projectIndex, cycleInterval);
+            
+            // Pause cycling when project is not in view
+            const project = projectsContainer.children[projectIndex];
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const interval = demoIntervals.get(projectIndex);
+                    if (!entry.isIntersecting) {
+                        // Pause all videos and stop cycling
+                        if (interval) {
+                            clearInterval(interval);
+                            demoIntervals.delete(projectIndex);
+                        }
+                        mediaElements.forEach(el => {
+                            if (el.tagName === 'VIDEO') {
+                                el.pause();
+                            }
+                        });
+                    } else {
+                        // Resume cycling when back in view
+                        if (!interval && demos.length > 1) {
+                            setupDemoCycling(projectIndex, demos, container);
+                        }
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            observer.observe(project);
+        }
+
+        // Create project section
+        function createProjectSection(projectIndex, config, demos) {
+            const section = document.createElement('section');
+            section.className = `project ${projectIndex % 2 === 0 ? 'layout-left' : 'layout-right'}`;
+            section.setAttribute('data-index', projectIndex);
+            section.style.background = pastelColors[projectIndex % pastelColors.length];
+            
+            const content = document.createElement('div');
+            content.className = 'project-content';
+            
+            // Text field
+            const textField = document.createElement('div');
+            textField.className = 'text-field';
+            
+            const title = document.createElement('h1');
+            title.className = 'project-title';
+            title.textContent = config.title;
+            
+            const dates = document.createElement('p');
+            dates.className = 'project-dates';
+            dates.textContent = `First commit: ${config.firstCommit} • Last commit: ${config.lastCommit}`;
+            
+            const abstract = document.createElement('p');
+            abstract.className = 'project-abstract';
+            abstract.textContent = config.abstract;
+            
+            textField.appendChild(title);
+            textField.appendChild(dates);
+            textField.appendChild(abstract);
+            
+            // Demo field
+            const demoField = document.createElement('div');
+            demoField.className = 'demo-field';
+            
+            // Set click handler for URLs
+            const clickUrl = config.urls?.github || config.urls?.demo || null;
+            if (clickUrl) {
+                demoField.onclick = () => window.open(clickUrl, '_blank');
+            }
+            
+            // Create demo container
+            if (demos.length > 0) {
+                const container = document.createElement('div');
+                container.className = 'demo-container';
+                
+                demos.forEach((demo, index) => {
+                    const element = createDemoElement(demo, index === 0);
+                    if (element) {
+                        container.appendChild(element);
+                    }
+                });
+                
+                demoField.appendChild(container);
+                
+                // Setup cycling if multiple demos
+                if (demos.length > 1) {
+                    setTimeout(() => setupDemoCycling(projectIndex, demos, container), 100);
+                }
+            } else {
+                // No demos found, show placeholder
+                const placeholder = document.createElement('div');
+                placeholder.className = 'demo-placeholder';
+                placeholder.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                placeholder.textContent = clickUrl ? 'Demo / Click for GitHub' : 'No demo available';
+                demoField.appendChild(placeholder);
+            }
+            
+            content.appendChild(textField);
+            content.appendChild(demoField);
+            section.appendChild(content);
+            
+            return section;
+        }
+
+        // Discover and load all projects
+        async function loadProjects() {
+            const projects = [];
+            let projectIndex = 0;
+            
+            while (true) {
+                const projectDir = `project_${projectIndex}`;
+                const config = await loadProjectConfig(projectDir);
+                
+                if (!config) break; // No more projects found
+                
+                const demos = await findDemoFiles(projectDir);
+                projects.push({ config, demos, projectIndex });
+                projectIndex++;
+            }
+            
+            return projects;
+        }
+
+        // Initialize the page
+        async function init() {
+            try {
+                const projects = await loadProjects();
+                
+                if (projects.length === 0) {
+                    loading.textContent = 'No projects found. Please create project directories (project_0, project_1, etc.) with config.json files.';
+                    return;
+                }
+                
+                // Create project sections
+                projects.forEach(({ config, demos, projectIndex }) => {
+                    const section = createProjectSection(projectIndex, config, demos);
+                    projectsContainer.appendChild(section);
+                });
+                
+                // Create progress bar
+                projects.forEach((_, index) => {
+                    const dot = document.createElement('div');
+                    dot.className = `progress-dot ${index === 0 ? 'active' : ''}`;
+                    dot.setAttribute('data-index', index);
+                    dot.addEventListener('click', () => {
+                        const project = projectsContainer.children[index];
+                        project.scrollIntoView({ behavior: 'smooth' });
+                    });
+                    progressBar.appendChild(dot);
+                });
+                
+                // Hide loading
+                loading.style.display = 'none';
+                
+                // Setup scroll tracking
+                const projectSections = projectsContainer.querySelectorAll('.project');
+                const progressDots = progressBar.querySelectorAll('.progress-dot');
+                
+        function updateProgressBar() {
+            const container = projectsContainer;
+            const scrollPosition = container.scrollTop;
+            const containerHeight = container.clientHeight;
+
+                    projectSections.forEach((project, index) => {
+                const projectTop = project.offsetTop;
+                const projectBottom = projectTop + project.offsetHeight;
+
+                if (scrollPosition >= projectTop - containerHeight / 2 && 
+                    scrollPosition < projectBottom - containerHeight / 2) {
+                    progressDots.forEach(dot => dot.classList.remove('active'));
+                    progressDots[index].classList.add('active');
+                }
+            });
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const currentActive = document.querySelector('.progress-dot.active');
+                    if (!currentActive) return;
+                    
+            const currentIndex = parseInt(currentActive.getAttribute('data-index'));
+            
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                e.preventDefault();
+                        if (currentIndex < projectSections.length - 1) {
+                            projectSections[currentIndex + 1].scrollIntoView({ behavior: 'smooth' });
+                }
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                if (currentIndex > 0) {
+                            projectSections[currentIndex - 1].scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+        
+        projectsContainer.addEventListener('scroll', updateProgressBar);
+        updateProgressBar();
+                
+            } catch (error) {
+                console.error('Error loading projects:', error);
+                loading.textContent = 'Error loading projects. Please check the console for details.';
+            }
+        }
+
+        // Start initialization
+        init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found | Project Portfolio</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon/favicon.svg">
+    <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="assets/favicon/site.webmanifest">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #E5F3FF 0%, #FFE5E5 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 800px;
+      width: 100%;
+    }
+
+    .error-code {
+      font-size: 8rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 20px;
+      line-height: 1;
+      opacity: 0.9;
+    }
+
+    .error-image-container {
+      max-width: 500px;
+      width: 100%;
+      margin: 30px auto;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .error-image-container:hover {
+      transform: scale(1.02);
+    }
+
+    .error-image {
+      max-width: 100%;
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .error-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 20px;
+    }
+
+    .error-message {
+      font-size: 1.2rem;
+      color: #666;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .home-button {
+      display: inline-block;
+      padding: 16px 32px;
+      background: #333;
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .home-button:hover {
+      background: #1a1a1a;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .home-button:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .error-code {
+        font-size: 5rem;
+      }
+
+      .error-title {
+        font-size: 1.8rem;
+      }
+
+      .error-message {
+        font-size: 1rem;
+      }
+
+      .home-button {
+        padding: 14px 28px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="error-code">404</div>
+    
+    <div class="error-image-container" onclick="window.open('https://github.com/tjayada', '_blank')">
+      <img class="error-image" src="assets/images/404.png" alt="The Rocket Emoji framed by the words 'Searching the final frontier? Explore my GitHub instead.'">
+    </div>
+    
+    <h1 class="error-title">Page Not Found</h1>
+    
+    <p class="error-message">
+      The page you're looking for doesn't exist or has been moved.
+    </p>
+    
+    <a href="/" class="home-button">Go Home</a>
+  </div>
+</body>
+
+</html>

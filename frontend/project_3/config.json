@@ -1,0 +1,11 @@
+{
+  "title": "Fraunhofer Prototype",
+  "firstCommit": "Sep 3, 2025",
+  "lastCommit": "Sep 17, 2025",
+  "abstract": "A comprehensive web application for managing hybrid work schedules, team measures, and AI-powered insights based on survey data. Developed by the WORK:AI:TION Team [Tjark, Victoria, Rouben & Lisa] during the Fraunhofer Summercamp 2025. Won the awards for the best UX, transferability and scalability potential.",
+  "urls": {
+    "github": "https://github.com/tjayada/fraunhofer-prototype",
+    "demo": null
+  }
+}
+

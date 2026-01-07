@@ -1,0 +1,11 @@
+{
+  "title": "Chess Bot with basic AI",
+  "firstCommit": "Jul 14, 2022",
+  "lastCommit": "Jul 31, 2022",
+  "abstract": "A chess bot that uses games that I've played as an openening book. A Negamax search algorithm with a depth of 3 is figuring out everything else. In combination with the Piece-Square table from sunfish , this still results in a rather weak bot, but it was fun to implement nonetheless",
+  "urls": {
+    "github": "https://github.com/tjayada/tjayada_basic_ai",
+    "demo": null
+  }
+}
+

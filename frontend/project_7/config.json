@@ -1,0 +1,11 @@
+{
+  "title": "Reinforcement Reservoirs",
+  "firstCommit": "Sep 30, 2024",
+  "lastCommit": "Oct 11, 2024",
+  "abstract": "A repository containing several training and evaluation scripts related to reinforcement learning and reservoir computing, as well as the resulting data. Neither the paper by Chang and Futagami (2019) nor the paper by Matsuki (2022) published code, so this repository may be the first to actually replicate these papers and provide the corresponding implementations.",
+  "urls": {
+    "github": "https://github.com/tjayada/Reinforcement-Reservoirs",
+    "demo": null
+  }
+}
+

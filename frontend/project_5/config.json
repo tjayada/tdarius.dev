@@ -1,0 +1,11 @@
+{
+  "title": "Mensa Telegram Bot",
+  "firstCommit": "May 29, 2025",
+  "lastCommit": "May 29, 2025",
+  "abstract": "A fun project that introduces a lightweight chat bot that automatically responds in my group chats with the daily main meals whenever “mensa” is mentioned.",
+  "urls": {
+    "github": "https://github.com/tjayada/mensa-telegram-bot",
+    "demo": null
+  }
+}
+

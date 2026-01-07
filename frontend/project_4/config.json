@@ -1,0 +1,11 @@
+{
+  "title": "Braincraft Challenge",
+  "firstCommit": "Jul 20, 2025",
+  "lastCommit": "Jul 31, 2025",
+  "abstract": "I took part in the Braincraft challenge, which is a competition to design a biologically inspired, rate-based neural network capable of solving simple decision tasks. I went with an evolutionary algorithm to find the best network. To speed things up I have used multiprocessing and for the evaluation of the population I'm using a handcrafted reward function.",
+  "urls": {
+    "github": "https://github.com/tjayada/braincraft",
+    "demo": null
+  }
+}
+

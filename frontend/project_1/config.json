@@ -1,0 +1,11 @@
+{
+  "title": "PrepBot-3000",
+  "firstCommit": "Sep 24, 2025",
+  "lastCommit": "Jan 2, 2026",
+  "abstract": "A playful chess preparation web app that generates personalized opponent analysis, using information gain and AI-generated preparation advice just seconds before the game begins.",
+  "urls": {
+    "github": "https://github.com/tjayada/PrepBot-3000",
+    "demo": "https://prepbot-3000.vercel.app"
+  }
+}
+

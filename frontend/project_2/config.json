@@ -1,0 +1,11 @@
+{
+  "title": "Market Offer Scraper Bot",
+  "firstCommit": "Dec 29, 2025",
+  "lastCommit": "Jan 2, 2026",
+  "abstract": "An automated scraper for fetching weekly offers from my local market's reverse-engineered API endpoints. The script runs on a schedule via GitHub Actions, filters offers based on my shopping preferences, and sends me matching notifications via Telegram.",
+  "urls": {
+    "github": "https://github.com/tjayada/market-offers-bot",
+    "demo": null
+  }
+}
+

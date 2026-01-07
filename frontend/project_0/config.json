@@ -1,0 +1,11 @@
+{
+  "title": "Straya Mapp",
+  "firstCommit": "Dec 17, 2025",
+  "lastCommit": "Jan 07, 2026",
+  "abstract": "A tool to help you select your most beautiful travel photos using locally run AI-models and afterwards visualise the journey on an interactive map in your browser.",
+  "urls": {
+    "github": "https://github.com/tjayada/straya-mapp",
+    "demo": null
+  }
+}
+

@@ -1,0 +1,11 @@
+{
+  "title": "Face-Centric Gaze Anticipation",
+  "firstCommit": "Nov 18, 2024",
+  "lastCommit": " Mar 28, 2025",
+  "abstract": "The main focus of my internship at the Institut de Robòtica i Informàtica Industrial (IRI) in Barcelona was to improve the work of Lai et al. (2024) and their paper Listen to Look into the Future: Audio-Visual Egocentric Gaze Anticipation by making the model more face-centric through face segmentation, and thus improve the performance of gaze prediction in social settings, an area that the authors noted has been neglected so far.",
+  "urls": {
+    "github": "https://github.com/tjayada/CSTS-FP",
+    "demo": null
+  }
+}
+
