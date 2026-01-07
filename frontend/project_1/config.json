@@ -6,6 +6,11 @@
   "urls": {
     "github": "https://github.com/tjayada/PrepBot-3000",
     "demo": "https://prepbot-3000.vercel.app"
-  }
+  },
+  "demos": [
+    {"type": "image", "file": "demo_0.png"},
+    {"type": "image", "file": "demo_1.png"},
+    {"type": "image", "file": "demo_2.png"}
+  ]
 }
 

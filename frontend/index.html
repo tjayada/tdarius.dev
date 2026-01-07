@@ -267,93 +267,72 @@
         const loading = document.getElementById('loading');
         
         const DEMO_CYCLE_INTERVAL = 3000; // 3 seconds between demo changes
-        const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-        const VIDEO_EXTENSIONS = ['mp4', 'webm', 'ogg'];
         
-        // Pastel color palette
-        const pastelColors = [
-            '#E5FFE5', '#E5F3FF', '#FFE5E5', '#F5E5FF', '#FFF5E5', '#E5F3FF',
-            '#E5FFFF','#F0FFE5', '#FFFFE5', '#E5FFFF', '#E5F3FF',
-        ];
-
-        // Find all demo files for a project directory
-        async function findDemoFiles(projectDir) {
-            const demos = [];
-            let index = 0;
-            
-            while (true) {
-                let found = false;
-                
-                // Try image extensions
-                for (const ext of IMAGE_EXTENSIONS) {
-                    const path = `${projectDir}/demo_${index}.${ext}`;
-                    try {
-                        const response = await fetch(path, { method: 'HEAD' });
-                        if (response.ok) {
-                            demos.push({ type: 'image', path, index });
-                            found = true;
-                            break;
-                        }
-                    } catch (e) {
-                        // File doesn't exist, continue
-                    }
-                }
-                
-                // Try video extensions if no image found
-                if (!found) {
-                    for (const ext of VIDEO_EXTENSIONS) {
-                        const path = `${projectDir}/demo_${index}.${ext}`;
-                        try {
-                            const response = await fetch(path, { method: 'HEAD' });
-                            if (response.ok) {
-                                demos.push({ type: 'video', path, index });
-                                found = true;
-                                break;
-                            }
-                        } catch (e) {
-                            // File doesn't exist, continue
-                        }
-                    }
-                }
-                
-                if (!found) break;
-                index++;
-            }
-            
-            return demos;
-        }
+        // Global projects config (will be loaded from projects.json)
+        let projectsConfig = null;
 
         // Load project config
         async function loadProjectConfig(projectDir) {
             try {
                 const response = await fetch(`${projectDir}/config.json`);
                 if (!response.ok) throw new Error(`Failed to load config for ${projectDir}`);
-                return await response.json();
+                const config = await response.json();
+                
+                // Process demos from config: convert file names to full paths
+                if (config.demos && Array.isArray(config.demos)) {
+                    config.demos = config.demos.map(demo => ({
+                        type: demo.type,
+                        file: demo.file,
+                        path: `${projectDir}/${demo.file}`
+                    }));
+                } else {
+                    config.demos = [];
+                }
+                
+                return config;
             } catch (error) {
                 console.error(`Error loading config for ${projectDir}:`, error);
                 return null;
             }
         }
 
-        // Create demo element
-        function createDemoElement(demo, isActive) {
+        // Create demo element with lazy loading
+        function createDemoElement(demo, isActive, projectDir) {
             if (demo.type === 'image') {
                 const img = document.createElement('img');
-                img.src = demo.path;
                 img.className = `demo-media ${isActive ? 'active' : ''}`;
                 img.alt = 'Project demo';
+                
+                // Lazy loading: only load if active (first image) or use native lazy loading
+                if (isActive) {
+                    img.src = demo.path;
+                } else {
+                    img.loading = 'lazy';
+                    img.src = demo.path;
+                }
+                
                 return img;
             } else if (demo.type === 'video') {
                 const video = document.createElement('video');
-                video.src = demo.path;
                 video.className = `demo-media ${isActive ? 'active' : ''}`;
                 video.muted = true;
                 video.loop = true;
-                video.autoplay = isActive;
                 video.playsInline = true;
+                
+                // Lazy loading for videos: use preload="none" and load source when needed
+                video.preload = 'none';
+                
                 if (isActive) {
+                    // Load the first video source immediately
+                    video.src = demo.path;
+                    video.load();
+                    video.autoplay = true;
                     video.play().catch(e => console.log('Video autoplay prevented:', e));
+                } else {
+                    // For inactive videos, set data-src to load later
+                    video.setAttribute('data-src', demo.path);
                 }
+                
                 return video;
             }
             return null;
@@ -362,7 +341,7 @@
         // Store intervals for cleanup
         const demoIntervals = new Map();
         
-        // Setup demo cycling for a project
+        // Setup demo cycling for a project with lazy loading
         function setupDemoCycling(projectIndex, demos, container) {
             if (demos.length <= 1) return;
             
@@ -374,20 +353,33 @@
             let currentIndex = 0;
             const mediaElements = container.querySelectorAll('.demo-media');
             
+            // Helper function to load video when needed
+            function loadVideo(video) {
+                const dataSrc = video.getAttribute('data-src');
+                if (dataSrc && !video.src) {
+                    video.src = dataSrc;
+                    video.removeAttribute('data-src');
+                    video.load();
+                }
+            }
+            
             const cycleInterval = setInterval(() => {
                 // Remove active class from current
-                mediaElements[currentIndex].classList.remove('active');
-                if (mediaElements[currentIndex].tagName === 'VIDEO') {
-                    mediaElements[currentIndex].pause();
+                const currentEl = mediaElements[currentIndex];
+                currentEl.classList.remove('active');
+                if (currentEl.tagName === 'VIDEO') {
+                    currentEl.pause();
                 }
                 
                 // Move to next
                 currentIndex = (currentIndex + 1) % demos.length;
                 
-                // Add active class to next
-                mediaElements[currentIndex].classList.add('active');
-                if (mediaElements[currentIndex].tagName === 'VIDEO') {
-                    mediaElements[currentIndex].play().catch(e => console.log('Video play prevented:', e));
+                // Add active class to next and load if needed
+                const nextEl = mediaElements[currentIndex];
+                nextEl.classList.add('active');
+                if (nextEl.tagName === 'VIDEO') {
+                    loadVideo(nextEl);
+                    nextEl.play().catch(e => console.log('Video play prevented:', e));
                 }
             }, DEMO_CYCLE_INTERVAL);
             
@@ -426,7 +418,11 @@
             const section = document.createElement('section');
             section.className = `project ${projectIndex % 2 === 0 ? 'layout-left' : 'layout-right'}`;
             section.setAttribute('data-index', projectIndex);
-            section.style.background = pastelColors[projectIndex % pastelColors.length];
+            
+            // Get color from projectsConfig, fallback to default if not available
+            const colors = projectsConfig?.colors || [];
+            const backgroundColor = colors[projectIndex] || '#F5F5F5';
+            section.style.background = backgroundColor;
             
             const content = document.createElement('div');
             content.className = 'project-content';
@@ -467,13 +463,34 @@
                 container.className = 'demo-container';
                 
                 demos.forEach((demo, index) => {
-                    const element = createDemoElement(demo, index === 0);
+                    const element = createDemoElement(demo, index === 0, `project_${projectIndex}`);
                     if (element) {
                         container.appendChild(element);
                     }
                 });
                 
                 demoField.appendChild(container);
+                
+                // Setup lazy loading for videos that aren't active
+                const inactiveVideos = container.querySelectorAll('video[data-src]');
+                if (inactiveVideos.length > 0) {
+                    const videoObserver = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                const video = entry.target;
+                                const dataSrc = video.getAttribute('data-src');
+                                if (dataSrc) {
+                                    video.src = dataSrc;
+                                    video.removeAttribute('data-src');
+                                    video.load();
+                                    videoObserver.unobserve(video);
+                                }
+                            }
+                        });
+                    }, { rootMargin: '50px' }); // Start loading 50px before it comes into view
+                    
+                    inactiveVideos.forEach(video => videoObserver.observe(video));
+                }
                 
                 // Setup cycling if multiple demos
                 if (demos.length > 1) {
@@ -495,23 +512,44 @@
             return section;
         }
 
-        // Discover and load all projects
+        // Load projects config from projects.json
+        async function loadProjectsConfig() {
+            try {
+                const response = await fetch('projects.json');
+                if (!response.ok) throw new Error('Failed to load projects.json');
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error loading projects config:', error);
+                return { num_projects: 0, colors: [] };
+            }
+        }
+
+        // Load all projects based on projects.json
         async function loadProjects() {
+            projectsConfig = await loadProjectsConfig();
+            const numProjects = projectsConfig.num_projects || 0;
             const projects = [];
-            let projectIndex = 0;
             
-            while (true) {
-                const projectDir = `project_${projectIndex}`;
-                const config = await loadProjectConfig(projectDir);
-                
-                if (!config) break; // No more projects found
-                
-                const demos = await findDemoFiles(projectDir);
-                projects.push({ config, demos, projectIndex });
-                projectIndex++;
+            // Generate project indices from 0 to num_projects (inclusive)
+            const projectIndices = [];
+            for (let i = 0; i <= numProjects; i++) {
+                projectIndices.push(i);
             }
             
-            return projects;
+            // Load configs for each project in parallel
+            const configPromises = projectIndices.map(async (projectIndex) => {
+                const projectDir = `project_${projectIndex}`;
+                const config = await loadProjectConfig(projectDir);
+                if (config) {
+                    const demos = config.demos || [];
+                    return { config, demos, projectIndex };
+                }
+                return null;
+            });
+            
+            const results = await Promise.all(configPromises);
+            return results.filter(p => p !== null);
         }
 
         // Initialize the page

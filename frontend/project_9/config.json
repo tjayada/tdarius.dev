@@ -6,6 +6,9 @@
   "urls": {
     "github": "https://github.com/tjayada/tjayada_basic_ai",
     "demo": null
-  }
+  },
+  "demos": [
+    {"type": "image", "file": "demo_0.gif"}
+  ]
 }
 

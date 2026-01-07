@@ -6,6 +6,10 @@
   "urls": {
     "github": "https://github.com/tjayada/fraunhofer-prototype",
     "demo": null
-  }
+  },
+  "demos": [
+    {"type": "image", "file": "demo_0.png"},
+    {"type": "image", "file": "demo_1.png"}
+  ]
 }
 

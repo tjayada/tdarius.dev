@@ -6,6 +6,10 @@
   "urls": {
     "github": "https://github.com/tjayada/sudoku_solver_cv",
     "demo": null
-  }
+  },
+  "demos": [
+    {"type": "image", "file": "demo_0.png"},
+    {"type": "image", "file": "demo_1.png"}
+  ]
 }
 

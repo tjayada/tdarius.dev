@@ -6,6 +6,9 @@
   "urls": {
     "github": "https://github.com/tjayada/braincraft",
     "demo": null
-  }
+  },
+  "demos": [
+    {"type": "video", "file": "demo_0.mp4"}
+  ]
 }
 

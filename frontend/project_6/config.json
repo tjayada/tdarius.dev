@@ -6,6 +6,11 @@
   "urls": {
     "github": "https://github.com/tjayada/CSTS-FP",
     "demo": null
-  }
+  },
+  "demos": [
+    {"type": "image", "file": "demo_0.png"},
+    {"type": "image", "file": "demo_1.png"},
+    {"type": "image", "file": "demo_2.png"}
+  ]
 }
 
