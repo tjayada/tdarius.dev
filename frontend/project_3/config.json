@@ -8,8 +8,8 @@
     "demo": null
   },
   "demos": [
-    {"type": "image", "file": "demo_0.png"},
-    {"type": "image", "file": "demo_1.png"}
+    {"type": "image", "url": "https://raw.githubusercontent.com/tjayada/fraunhofer-prototype/refs/heads/main/assets/wochenplan.png"},
+    {"type": "image", "url": "https://raw.githubusercontent.com/tjayada/fraunhofer-prototype/refs/heads/main/assets/massnahmen.png"}
   ]
 }
 

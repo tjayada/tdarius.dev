@@ -8,9 +8,9 @@
     "demo": "https://prepbot-3000.vercel.app"
   },
   "demos": [
-    {"type": "image", "file": "demo_0.png"},
-    {"type": "image", "file": "demo_1.png"},
-    {"type": "image", "file": "demo_2.png"}
+    {"type": "image", "url": "https://raw.githubusercontent.com/tjayada/PrepBot-3000/refs/heads/main/images/screenshot-public-table.png"},
+    {"type": "image", "url": "https://raw.githubusercontent.com/tjayada/PrepBot-3000/refs/heads/main/images/screenshot-home.png"},
+    {"type": "image", "url": "https://raw.githubusercontent.com/tjayada/PrepBot-3000/refs/heads/main/images/screenshot-dashboard.png"}
   ]
 }
 

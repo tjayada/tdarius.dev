@@ -278,13 +278,18 @@
                 if (!response.ok) throw new Error(`Failed to load config for ${projectDir}`);
                 const config = await response.json();
                 
-                // Process demos from config: convert file names to full paths
+                // Process demos from config: handle both local files and external URLs
                 if (config.demos && Array.isArray(config.demos)) {
-                    config.demos = config.demos.map(demo => ({
-                        type: demo.type,
-                        file: demo.file,
-                        path: `${projectDir}/${demo.file}`
-                    }));
+                    config.demos = config.demos.map(demo => {
+                        // If URL is provided, use it directly; otherwise construct path from file
+                        const src = demo.url || (demo.file ? `${projectDir}/${demo.file}` : null);
+                        return {
+                            type: demo.type,
+                            file: demo.file || null,
+                            url: demo.url || null,
+                            src: src
+                        };
+                    });
                 } else {
                     config.demos = [];
                 }
@@ -298,6 +303,8 @@
 
         // Create demo element with lazy loading
         function createDemoElement(demo, isActive, projectDir) {
+            if (!demo.src) return null; // Skip if no valid source
+            
             if (demo.type === 'image') {
                 const img = document.createElement('img');
                 img.className = `demo-media ${isActive ? 'active' : ''}`;
@@ -305,10 +312,10 @@
                 
                 // Lazy loading: only load if active (first image) or use native lazy loading
                 if (isActive) {
-                    img.src = demo.path;
+                    img.src = demo.src;
                 } else {
                     img.loading = 'lazy';
-                    img.src = demo.path;
+                    img.src = demo.src;
                 }
                 
                 return img;
@@ -324,13 +331,13 @@
                 
                 if (isActive) {
                     // Load the first video source immediately
-                    video.src = demo.path;
+                    video.src = demo.src;
                     video.load();
                     video.autoplay = true;
                     video.play().catch(e => console.log('Video autoplay prevented:', e));
                 } else {
                     // For inactive videos, set data-src to load later
-                    video.setAttribute('data-src', demo.path);
+                    video.setAttribute('data-src', demo.src);
                 }
                 
                 return video;

@@ -8,7 +8,7 @@
     "demo": null
   },
   "demos": [
-    {"type": "video", "file": "demo_0.mp4"}
+    {"type": "video", "url": "https://github.com/tjayada/tdarius.dev/raw/refs/heads/main/frontend/project_0/demo_0.mp4"}
   ]
 }
 

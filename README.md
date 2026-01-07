@@ -63,7 +63,9 @@ Each `config.json` file should contain:
   },
   "demos": [
     {"type": "image", "file": "demo_0.png"},
-    {"type": "video", "file": "demo_1.mp4"}
+    {"type": "video", "file": "demo_1.mp4"},
+    {"type": "image", "url": "https://your-cdn.com/path/to/demo_0.webp"},
+    {"type": "video", "url": "https://your-cdn.com/path/to/demo_1.mp4"}
   ]
 }
 ```
@@ -71,23 +73,33 @@ Each `config.json` file should contain:
 ## Demo Files
 
 - **Important**: Demo files must be explicitly listed in the `demos` array in `config.json`
+
 - Each demo entry should specify:
   - `type`: Either `"image"` or `"video"`
-  - `file`: The filename (e.g., `"demo_0.png"`, `"demo_1.mp4"`)
-- Supported image formats: `.jpg`, `.jpeg`, `.png`, `.gif`, `.webp`
-- Supported video formats: `.mp4`, `.webm`, `.ogg`
+  - **Either `file` OR `url`** (not both):
+    - `file`: Local filename (e.g., `"demo_0.png"`, `"demo_1.mp4"`) - files must be in the project directory
+    - `url`: Full URL to hosted media (e.g., `"https://your-cdn.com/path/to/demo.webp"`)
+
+- **Using URLs (`url`)**:
+	- Upload optimized images/videos to a CDN or storage service (e.g., Supabase Storage, Cloudinary, AWS S3)
+  - Use the full public URL in the `url` field
+  - Allows for better performance, caching, and bandwidth optimization
+- **Local files (`file`)**:
+	- Supported image formats: `.jpg`, `.jpeg`, `.png`, `.gif`, `.webp`
+	- Supported video formats: `.mp4`, `.webm`, `.ogg`
+
 - If multiple demos exist for a project, they will automatically cycle every 3 seconds
 - Videos will autoplay (muted) when they become active
-- **Performance**: Images and videos are lazy-loaded for faster initial page load
 
 ## Adding Projects
 
 1. Create a new directory: `project_N` (where N is the next number)
 2. Add a `config.json` file with your project information (including the `demos` array)
-3. Add demo files as `demo_0.ext`, `demo_1.ext`, etc. in the project directory
-4. List all demo files in the `demos` array of `config.json`
-5. **Important**: Update `num_projects` in `frontend/projects.json` to `N` (if N is the highest project number)
-6. **Important**: Add a color to the `colors` array in `frontend/projects.json` for the new project
+3. **Option A (Local files)**: Add demo files as `demo_0.ext`, `demo_1.ext`, etc. in the project directory
+4. **Option B (External URLs)**: Upload optimized media to your storage/CDN and use the URLs
+5. List all demos in the `demos` array of `config.json` using either `file` (local) or `url` (external)
+6. **Important**: Update `num_projects` in `frontend/projects.json` to `N` (if N is the highest project number)
+7. **Important**: Add a color to the `colors` array in `frontend/projects.json` for the new project
 
 ## Features
 
