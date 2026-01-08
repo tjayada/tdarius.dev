@@ -25,6 +25,14 @@
             overflow-y: auto;
             scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
+            /* Hide default scrollbar */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        #projects-container::-webkit-scrollbar {
+            display: none;
         }
 
         .project {
@@ -34,7 +42,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 60px 80px;
+            padding: 60px 140px 60px 80px;
             position: relative;
         }
 
@@ -74,6 +82,7 @@
             line-height: 1.7;
             color: #333;
             max-width: 600px;
+            text-align: justify;
         }
 
         .demo-field {
@@ -134,19 +143,35 @@
             flex-direction: row-reverse;
         }
 
-        /* Progress bar */
+        /* Progress bar - Vertical on right side */
         .progress-bar {
             position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
             display: flex;
+            flex-direction: column;
             gap: 12px;
             z-index: 1000;
             background: rgba(255, 255, 255, 0.9);
-            padding: 16px 24px;
-            border-radius: 50px;
+            padding: 20px 12px;
+            border-radius: 30px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Auto-hide on mobile */
+        @media (max-width: 768px) {
+            .progress-bar {
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            .progress-bar.visible {
+                opacity: 1;
+                pointer-events: auto;
+            }
         }
 
         .progress-dot {
@@ -160,10 +185,11 @@
 
         .progress-dot:hover {
             background: #999;
+            transform: scale(1.2);
         }
 
         .progress-dot.active {
-            width: 32px;
+            height: 32px;
             border-radius: 16px;
             background: #333;
         }
@@ -210,8 +236,18 @@
             }
 
             .progress-bar {
-                bottom: 20px;
-                padding: 12px 20px;
+                right: 12px;
+                padding: 16px 8px;
+                gap: 10px;
+            }
+
+            .progress-dot {
+                width: 10px;
+                height: 10px;
+            }
+
+            .progress-dot.active {
+                height: 28px;
             }
         }
         /* Scroll-snap control panel */
@@ -633,6 +669,58 @@
         
         projectsContainer.addEventListener('scroll', updateProgressBar);
         updateProgressBar();
+        
+        // Auto-hide progress bar on mobile
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        if (isMobile) {
+            let hideTimeout;
+            const HIDE_DELAY = 1500; // 1.5 seconds
+            
+            function showProgressBar() {
+                progressBar.classList.add('visible');
+                // Clear existing timeout
+                clearTimeout(hideTimeout);
+                // Set new timeout to hide
+                hideTimeout = setTimeout(() => {
+                    progressBar.classList.remove('visible');
+                }, HIDE_DELAY);
+            }
+            
+            function hideProgressBar() {
+                clearTimeout(hideTimeout);
+                hideTimeout = setTimeout(() => {
+                    progressBar.classList.remove('visible');
+                }, HIDE_DELAY);
+            }
+            
+            // Show on scroll start
+            let isScrolling = false;
+            projectsContainer.addEventListener('scroll', () => {
+                if (!isScrolling) {
+                    showProgressBar();
+                    isScrolling = true;
+                }
+                hideProgressBar();
+            });
+            
+            // Reset scrolling flag after scroll ends
+            let scrollEndTimer;
+            projectsContainer.addEventListener('scroll', () => {
+                clearTimeout(scrollEndTimer);
+                scrollEndTimer = setTimeout(() => {
+                    isScrolling = false;
+                }, 150);
+            });
+            
+            // Show on touch start (for when user wants to scroll)
+            let touchStartTimer;
+            document.addEventListener('touchstart', () => {
+                clearTimeout(touchStartTimer);
+                touchStartTimer = setTimeout(() => {
+                    showProgressBar();
+                }, 100);
+            }, { passive: true });
+        }
                 
             } catch (error) {
                 console.error('Error loading projects:', error);
