@@ -14,7 +14,7 @@ frontend/
 ├── theme.js            colour theme toggle, shared by index.html and 404.html (not deferred, so a stored choice applies before the first paint)
 ├── style.css           styles for index.html and 404.html (light + dark mode)
 ├── 404.html            not-found page
-├── profile.json        intro and contact sections: bio, links, publications, earlier work
+├── profile.json        intro and contact sections: bio, links, publications, awards
 ├── projects.json       ordered list of project folders + colour palette
 ├── assets/             favicons and the 404 image
 └── projects/
@@ -72,15 +72,9 @@ Everything on the intro and contact sections. Empty strings and entries without 
   "publicationsNote": "Optional line below the list, e.g. a paper under review.",
   "awards": [
     {"title": "Scholarship or prize", "note": "2023"}
-  ],
-  "earlierWork": [
-    {"title": "Older project", "url": "https://github.com/username/repo"}
   ]
 }
 ```
-
-`earlierWork` is rendered as one sentence on the contact section, followed by a link to
-the GitHub profile taken from `links`.
 
 The header (name, LinkedIn link, theme toggle) is static HTML in `index.html` and
 `404.html`, so it shows before any JSON has loaded. Change the LinkedIn URL there as well.
@@ -170,3 +164,4 @@ cd frontend && python3 -m http.server 8000
   (arrow keys, Page Up/Down, Home/End, Space)
 - Dark mode follows the OS and can be toggled in the header (the choice is remembered in the browser), reduced-motion support, lazy-loaded media
 - Works on phones: slides snap one per screen, abstracts collapse to their first sentence, the intro splits into three screens (text, publications and awards, project index), and the dot navigation hides itself while not scrolling
+- Adapts to the window: the intro is a 2x2 grid on one screen where that fits (from 1200px wide and 760px tall), and the same three stacked screens as on phones everywhere else

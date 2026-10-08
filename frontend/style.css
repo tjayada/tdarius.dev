@@ -152,7 +152,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px 140px 60px 80px;
+  padding: 80px 100px 80px 80px;
   background: var(--page-bg);
 }
 
@@ -315,57 +315,118 @@ a {
 
 /* ---------- intro section ---------- */
 
-/* Desktop hero: a 2x2 grid. Row 1 centres text and project index against each
-   other, row 2 stretches publications and awards to one height. The column and
-   screen wrappers dissolve so the four blocks are direct grid children placed by
-   grid area (the awards card sits in the publications screen in the DOM); on
-   phones the wrappers take over again (see the small-screens section). */
+/* The intro has two layouts. By default it is three full-height screens (text,
+   publications + awards, project index), each centred like a project slide. On
+   big windows (media query below) it is a 2x2 grid on one screen, where the
+   screen wrappers dissolve and the four blocks are placed by grid area. The
+   double class outweighs the phone padding set on .project. */
+.project.intro {
+  padding-top: 0;
+  padding-bottom: 0;
+  /* Stacked, the section is three screens tall. Safari treats an oversized snap
+     area as free-scrolling and ignores the snap points of the screens inside. */
+  scroll-snap-align: none;
+}
+
 .intro .project-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-areas:
-    "text index"
-    "publications awards";
-  column-gap: 60px;
-  row-gap: 20px;
-  align-items: center;
+  flex-direction: column;
+  gap: 0;
 }
 
 .intro-main,
-.intro-aside,
-.intro-screen {
+.intro-aside {
   display: contents;
 }
 
-.intro-text { grid-area: text; }
-.intro-index { grid-area: index; }
-.intro-publications { grid-area: publications; align-self: stretch; }
-.intro-awards { grid-area: awards; align-self: stretch; }
+.intro-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: 760px; /* a readable line length on tablets and narrow windows */
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 56px 0; /* header clearance on top, the same below so the content is truly centred */
+  scroll-snap-align: start;
+}
 
-/* the bio is one notch smaller than a project abstract so the hero fits a laptop screen */
+.intro-screen > .text-field {
+  /* unlike a project slide's text block, this one must not grow to share the row with a demo */
+  flex: none;
+}
+
+.intro-screen.screen-publications { order: 1; } /* text stays first */
+.intro-screen.screen-index { order: 2; }
+
+.intro-publications + .intro-awards {
+  margin-top: 64px;
+}
+
+/* the grid, where it fits on one screen */
+@media (min-width: 1200px) and (min-height: 760px) {
+  .project.intro {
+    padding: 40px 72px 40px 56px; /* the right side also clears the progress bar */
+    scroll-snap-align: start; /* one screen again, so it snaps like any slide */
+  }
+
+  .intro .project-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "text index"
+      "publications awards";
+    column-gap: 48px;
+    row-gap: 32px;
+    align-items: center;
+  }
+
+  .intro-screen {
+    display: contents;
+  }
+
+  .intro .text-field {
+    gap: 12px;
+  }
+
+  .intro-text { grid-area: text; }
+  .intro-index { grid-area: index; }
+  .intro-publications { grid-area: publications; align-self: stretch; }
+  .intro-awards { grid-area: awards; align-self: stretch; }
+
+  .intro-publications + .intro-awards {
+    margin-top: 0;
+  }
+}
+
+/* the intro's type is one notch smaller than a project slide's so the grid fits a laptop screen */
 .intro .project-abstract {
-  font-size: 1.02rem;
-  line-height: 1.65;
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.intro .project-highlight {
+  font-size: 0.94rem;
+  line-height: 1.45;
 }
 
 .intro-name {
-  font-size: clamp(2.2rem, 1.4rem + 2.6vw, 3.4rem);
+  font-size: clamp(2rem, 1.2rem + 2vw, 3rem);
 }
 
 .intro-tagline {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 500;
   color: var(--text);
   margin-top: -6px;
 }
 
 .intro-heading {
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-bottom: 10px;
+  margin-bottom: 4px;
 }
 
 .publication-list,
@@ -386,6 +447,7 @@ a {
 }
 
 .publication-title {
+  font-size: 0.94rem;
   font-weight: 600;
   color: var(--text);
 }
@@ -394,25 +456,25 @@ a {
 .publication-venue,
 .publication-note,
 .index-meta {
-  font-size: 0.92rem;
+  font-size: 0.86rem;
   color: var(--text-muted);
 }
 
 .publication-links {
   display: flex;
   gap: 14px;
-  font-size: 0.92rem;
+  font-size: 0.86rem;
 }
 
 .publication-note {
-  margin-top: 10px;
+  margin-top: 6px;
 }
 
 /* reference material lives in cards: publications, awards, project index */
 .intro-publications,
 .intro-index,
 .intro-awards {
-  padding: 20px 26px;
+  padding: 16px 22px;
   border-radius: var(--radius);
   background: var(--surface);
   box-shadow: var(--shadow);
@@ -424,7 +486,7 @@ a {
   justify-content: space-between;
   align-items: baseline;
   column-gap: 12px;
-  padding: 8px 0;
+  padding: 4px 0;
   border-top: 1px solid var(--chip-border);
 }
 
@@ -437,6 +499,7 @@ a {
 }
 
 .index-link {
+  font-size: 0.94rem;
   font-weight: 600;
   text-decoration: none;
   color: var(--text);
@@ -452,7 +515,7 @@ a {
   flex-direction: column;
   padding: 5px 0;
   line-height: 1.45;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 /* ---------- contact section ---------- */
@@ -488,12 +551,6 @@ a {
   gap: 10px;
   text-align: center;
   color: var(--text-muted);
-}
-
-.earlier-work {
-  max-width: 560px;
-  font-size: 0.9rem;
-  line-height: 1.6;
 }
 
 .colophon {
@@ -771,8 +828,7 @@ a {
     gap: 10px;
   }
 
-  .project-abstract,
-  .intro .project-abstract {
+  .project-abstract {
     font-size: 0.95rem;
     line-height: 1.5;
   }
@@ -782,57 +838,16 @@ a {
     line-height: 1.45;
   }
 
-  /* The intro becomes three full-height screens, each vertically centred like a
-     project slide: text, publications + awards, project index. The two column
-     wrappers dissolve so the screens can be reordered. */
-  .intro {
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-
-  .intro .project-content {
-    display: flex;
-    row-gap: 0;
-  }
-
-  .intro-screen {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    min-height: 100vh;
-    min-height: 100dvh;
-    padding: 56px 0; /* header clearance on top, the same below so the content is truly centred */
-    scroll-snap-align: start;
-  }
-
-  .intro-screen.screen-publications { order: 1; } /* text stays first */
-  .intro-screen.screen-index { order: 2; }
-
-  .intro-publications + .intro-awards {
-    margin-top: 64px;
-  }
-
   /* every index row stacks title and meta, so the rows look alike, and the
      rows are compact so the card fits even a short phone screen */
   .index-list li {
     flex-direction: column;
     align-items: flex-start;
-    padding: 5px 0;
     line-height: 1.3;
   }
 
-  .index-link {
-    font-size: 0.95rem;
-  }
-
   .index-list .index-meta {
-    font-size: 0.85rem;
     text-align: left;
-  }
-
-  .intro-tagline {
-    font-size: 1.1rem;
   }
 
   /* the dot navigation only shows while scrolling */
@@ -901,12 +916,10 @@ a {
 }
 
 /* ---------- dark mode ---------- */
-/* Last so it wins over the light rules above with equal specificity.
-   Active when the OS prefers dark (unless the toggle forced light) or when the
-   toggle forced dark. The variable block is deliberately repeated for the two
-   cases: the media-query copy makes dark mode work before (or without) theme.js,
-   and CSS cannot share one declaration block across a media-query boundary.
-   Guarded so browsers without color-mix() keep the light theme. */
+/* Last so it wins over the light rules above with equal specificity. The variable
+   block is repeated because CSS cannot share one declaration block across a
+   media-query boundary, and the media-query copy works without theme.js. The
+   @supports guard keeps the light theme in browsers without color-mix(). */
 
 /* the toggle forced light on a dark OS: native controls and overscroll follow */
 :root[data-theme="light"] {

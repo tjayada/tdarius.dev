@@ -27,7 +27,8 @@
       try { localStorage.setItem('theme', next); } catch { /* private mode etc. */ }
       render();
     });
-    if (typeof prefersDark.addEventListener === 'function') prefersDark.addEventListener('change', render); // missing in old Safari
+    // old Safari has no addEventListener on MediaQueryList
+    if (typeof prefersDark.addEventListener === 'function') prefersDark.addEventListener('change', render);
     render();
   }
 

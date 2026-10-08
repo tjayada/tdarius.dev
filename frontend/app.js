@@ -115,10 +115,8 @@
     return node;
   }
 
-  // The abstract starts with one plain-language sentence (see README). Phones show
-  // only that sentence until the "More" button is tapped, so the lead and the rest
-  // are separate spans. The split is the first . ? or ! followed by a capital
-  // letter, which skips abbreviations such as "et al. (2024)".
+  // Phones show only the first sentence until "More" is tapped, so the lead and
+  // the rest are separate spans. The split rule is documented in the README.
   function createAbstract(abstract) {
     const node = el('p', 'project-abstract');
     const match = abstract.match(/^([\s\S]*?[.?!])\s+(?=[A-Z])/);
@@ -179,7 +177,8 @@
       media.playsInline = true;
       media.preload = 'none';
       media.setAttribute('aria-label', demo.alt);
-      if (demo.poster) media.poster = demo.poster; // shown until the video plays, or instead of it if it cannot
+      // the poster shows until the video plays, or instead of it if it cannot
+      if (demo.poster) media.poster = demo.poster;
       media.dataset.src = demo.src; // attached on first play, see attachSource()
     } else {
       media = document.createElement('img');
@@ -327,20 +326,6 @@
 
     // Secondary information lives in a footer block pinned to the bottom of the slide.
     const footer = el('footer', 'site-footer');
-    if (profile.earlierWork.length) {
-      const p = el('p', 'earlier-work');
-      p.append('Earlier work includes ');
-      profile.earlierWork.forEach((item, i, all) => {
-        if (i > 0) p.append(i === all.length - 1 ? ' and ' : ', ');
-        p.append(item.url ? link(item.url, item.title, 'text-link') : item.title);
-      });
-      if (profile.github) {
-        p.append(', plus more on ');
-        p.append(link(profile.github, 'GitHub', 'text-link'));
-      }
-      p.append('.');
-      footer.append(p);
-    }
     // two unbreakable parts, so a narrow screen wraps to "name" / "the rest", never mid-phrase
     const colophon = el('p', 'colophon');
     const rest = el('span', '', 'plain HTML, CSS and JavaScript · ');
@@ -424,8 +409,6 @@
       })).filter((pub) => pub.title),
       publicationsNote: text(raw.publicationsNote),
       awards: objects(raw.awards).map((item) => ({ title: text(item.title), note: text(item.note) })).filter((item) => item.title),
-      earlierWork: objects(raw.earlierWork).map((item) => ({ title: text(item.title), url: text(item.url) })).filter((item) => item.title),
-      github: links.find((item) => item.label.toLowerCase() === 'github')?.url || null,
     };
   }
 
@@ -526,7 +509,8 @@
     const STEP = { ArrowDown: 1, ArrowRight: 1, PageDown: 1, ' ': 1, ArrowUp: -1, ArrowLeft: -1, PageUp: -1 };
     document.addEventListener('keydown', (event) => {
       if (event.altKey || event.ctrlKey || event.metaKey) return;
-      if (event.target instanceof Element && event.target.closest('button, a, input, select, textarea, video')) return; // let focused controls handle keys
+      // let focused controls handle their own keys
+      if (event.target instanceof Element && event.target.closest('button, a, input, select, textarea, video')) return;
       let next;
       if (event.key === 'Home') next = 0;
       else if (event.key === 'End') next = states.length - 1;
