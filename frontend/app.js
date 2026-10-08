@@ -456,8 +456,11 @@
     let current = 0;
     states[0].dot.setAttribute('aria-current', 'true');
 
+    // Smooth only for programmatic navigation; swipes use the browser's native snap (see html in style.css)
+    const SCROLL_BEHAVIOR = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+
     function goTo(node) {
-      node.scrollIntoView();
+      node.scrollIntoView({ behavior: SCROLL_BEHAVIOR });
       node.focus({ preventScroll: true });
     }
 

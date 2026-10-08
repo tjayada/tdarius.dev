@@ -33,7 +33,9 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
+  /* No scroll-behavior: smooth here: on phones it interferes with the native
+     snap after a swipe (WebKit bug 245722). Dot and keyboard navigation pass
+     behavior: 'smooth' to scrollIntoView instead (see goTo in app.js). */
   /* the dot navigation replaces the scrollbar */
   scrollbar-width: none;
 }
@@ -146,8 +148,11 @@ a {
 /* Light mode is neutral; the project colour (--project-bg) only tints dark mode */
 .project {
   position: relative;
+  /* svh, not dvh: a snapped slide must not resize while the phone's address bar
+     collapses mid-swipe, or the snap points move under the finger and the page
+     wobbles before it settles (WebKit bug 266835). */
   min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 100svh;
   scroll-snap-align: start;
   display: flex;
   align-items: center;
@@ -345,7 +350,7 @@ a {
   width: 100%;
   max-width: 760px; /* a readable line length on tablets and narrow windows */
   min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 100svh; /* svh for the same reason as .project */
   padding: 56px 0; /* header clearance on top, the same below so the content is truly centred */
   scroll-snap-align: start;
 }
@@ -896,10 +901,6 @@ a {
 /* ---------- reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
   .demo-slide,
   .demo-field,
   .progress-dot,
