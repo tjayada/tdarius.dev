@@ -709,6 +709,9 @@ a {
 }
 
 /* ---------- 404 page ---------- */
+/* One centred column that has to fit a single screen, so the big number, the
+   image and the spacing between the blocks scale with the window height; the
+   "Go home" button must never end up below the fold. */
 
 .error-page {
   min-height: 100vh;
@@ -716,7 +719,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px 20px 40px;
+  padding: 80px 20px 24px; /* the header sits in the top padding */
 }
 
 .error-container {
@@ -726,10 +729,10 @@ a {
 }
 
 .error-code {
-  font-size: clamp(5rem, 10vw, 8rem);
+  font-size: min(clamp(5rem, 10vw, 8rem), 12vh);
   font-weight: 700;
   line-height: 1;
-  margin-bottom: 20px;
+  margin-bottom: clamp(8px, 2vh, 20px);
   color: var(--text);
 }
 
@@ -743,8 +746,8 @@ a {
 
 .error-image-link {
   display: block;
-  max-width: 500px;
-  margin: 30px auto;
+  max-width: min(500px, 52vh);
+  margin: clamp(12px, 3vh, 30px) auto;
   transition: transform 0.3s ease;
 }
 
@@ -764,14 +767,14 @@ a {
 .error-title {
   font-size: clamp(1.8rem, 4vw, 2.5rem);
   font-weight: 700;
-  margin-bottom: 16px;
+  margin-bottom: clamp(8px, 2vh, 16px);
   color: var(--text);
 }
 
 .error-message {
   font-size: 1.1rem;
   line-height: 1.6;
-  margin-bottom: 36px;
+  margin-bottom: clamp(16px, 4vh, 36px);
   color: var(--text-muted);
 }
 
