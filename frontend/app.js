@@ -115,6 +115,33 @@
     return node;
   }
 
+  // The abstract starts with one plain-language sentence (see README). Phones show
+  // only that sentence until the "More" button is tapped, so the lead and the rest
+  // are separate spans. The split is the first . ? or ! followed by a capital
+  // letter, which skips abbreviations such as "et al. (2024)".
+  function createAbstract(abstract) {
+    const node = el('p', 'project-abstract');
+    const match = abstract.match(/^([\s\S]*?[.?!])\s+(?=[A-Z])/);
+    const lead = match ? match[1] : abstract;
+    const rest = match ? abstract.slice(match[0].length) : '';
+    if (!rest) {
+      node.textContent = lead;
+      return node;
+    }
+    node.classList.add('collapsible');
+    node.append(el('span', 'abstract-lead', lead), el('span', 'abstract-rest', ` ${rest}`), ' ');
+    const toggle = el('button', 'abstract-toggle', 'More');
+    toggle.type = 'button';
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.addEventListener('click', () => {
+      const expanded = node.classList.toggle('expanded');
+      toggle.textContent = expanded ? 'Less' : 'More';
+      toggle.setAttribute('aria-expanded', String(expanded));
+    });
+    node.append(toggle);
+    return node;
+  }
+
   // A row of pill links from [{label, url}], skipping entries without a url.
   // The arrow marks links that leave the page, including the mailto.
   function linkRow(links, className) {
@@ -259,7 +286,7 @@
     if (project.period) meta.append(el('span', '', project.period));
     if (meta.childElementCount) textField.append(meta);
 
-    if (project.abstract) textField.append(el('p', 'project-abstract', project.abstract));
+    if (project.abstract) textField.append(createAbstract(project.abstract));
     if (project.highlight) textField.append(el('p', 'project-highlight', project.highlight));
     if (project.tags.length) {
       const tags = el('ul', 'project-tags');

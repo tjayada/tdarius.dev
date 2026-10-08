@@ -252,6 +252,25 @@ a {
   text-decoration-color: currentColor;
 }
 
+/* "More" / "Less" inside the abstract; only phones show it (see the small-screens section) */
+.abstract-toggle {
+  display: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--text-muted);
+  cursor: pointer;
+}
+
+.abstract-toggle:hover {
+  text-decoration-color: currentColor;
+}
+
 /* ---------- buttons and links ---------- */
 
 .project-links {
@@ -707,7 +726,7 @@ a {
   }
 
   .project {
-    padding: 56px 16px 32px;
+    padding: 56px 16px 20px;
   }
 
   .project-title {
@@ -735,7 +754,7 @@ a {
   .project-content,
   .project:nth-child(even) .project-content {
     flex-direction: column;
-    gap: 28px;
+    gap: 20px;
   }
 
   .text-field,
@@ -749,17 +768,18 @@ a {
   }
 
   .text-field {
-    gap: 14px;
+    gap: 10px;
   }
 
   .project-abstract,
   .intro .project-abstract {
     font-size: 0.95rem;
-    line-height: 1.6;
+    line-height: 1.5;
   }
 
   .project-highlight {
     font-size: 0.95rem;
+    line-height: 1.45;
   }
 
   /* The intro becomes three full-height screens, each vertically centred like a
@@ -838,6 +858,20 @@ a {
 
   .progress-dot[aria-current="true"] {
     height: 26px;
+  }
+}
+
+/* ---------- phones: abstracts collapse to their first sentence ---------- */
+/* Only where a whole slide would not fit otherwise: narrow and not tall, so a
+   tablet in portrait keeps the full text. */
+
+@media (max-width: 768px) and (max-height: 900px) {
+  .project-abstract.collapsible:not(.expanded) .abstract-rest {
+    display: none;
+  }
+
+  .project-abstract.collapsible .abstract-toggle {
+    display: inline;
   }
 }
 

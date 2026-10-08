@@ -111,6 +111,9 @@ The header (name, LinkedIn link, theme toggle) is static HTML in `index.html` an
 
 - `context` and `period` form the line under the title ("Master's thesis · Apr – Sep
   2026"). The intro's project index shows the context and the year(s) only.
+- `abstract`: the first sentence has to stand on its own. Phones show only that
+  sentence, with a "More" button for the rest, so a slide fits on one screen. The split
+  is the first `.`, `?` or `!` followed by a capital letter.
 - `highlight` is shown as an emphasised line under the abstract. Leave it empty if
   there is no result worth stating.
 - `tags` become small chips. Keep them to the technologies a reader would search for.
@@ -166,4 +169,4 @@ cd frontend && python3 -m http.server 8000
 - Full-screen sections with scroll snapping, dot navigation and keyboard navigation
   (arrow keys, Page Up/Down, Home/End, Space)
 - Dark mode follows the OS and can be toggled in the header (the choice is remembered in the browser), reduced-motion support, lazy-loaded media
-- Works on phones: slides snap one per screen, the intro splits into three screens (text, publications and awards, project index), and the dot navigation hides itself while not scrolling
+- Works on phones: slides snap one per screen, abstracts collapse to their first sentence, the intro splits into three screens (text, publications and awards, project index), and the dot navigation hides itself while not scrolling

@@ -2,7 +2,7 @@
   "title": "Fraunhofer Prototype",
   "context": "Fraunhofer Summercamp 2025",
   "period": "Sep 2025",
-  "abstract": "A web app that helps hybrid teams plan their office week and improve their team measures with AI feedback on survey data, built by the WORK:AI:TION team (Tjark, Victoria, Rouben and Lisa) during the Fraunhofer Summercamp 2025 with a FastAPI backend, prompt templates for the AI insights and a plain HTML frontend.",
+  "abstract": "Help hybrid teams plan their office week and get AI feedback on how they work together. The WORK:AI:TION team (Tjark, Victoria, Rouben and Lisa) built this web app during the Fraunhofer Summercamp 2025, with a FastAPI backend, prompt templates that turn survey data into AI insights and a plain HTML frontend.",
   "highlight": "The prototype won the awards for best UX, transferability and scalability potential.",
   "tags": [
     "Python",
