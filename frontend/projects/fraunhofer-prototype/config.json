@@ -1,0 +1,29 @@
+{
+  "title": "Fraunhofer Prototype",
+  "context": "Fraunhofer Summercamp 2025",
+  "period": "Sep 2025",
+  "abstract": "A web app that helps hybrid teams plan their office week and improve their team measures with AI feedback on survey data, built by the WORK:AI:TION team (Tjark, Victoria, Rouben and Lisa) during the Fraunhofer Summercamp 2025 with a FastAPI backend, prompt templates for the AI insights and a plain HTML frontend.",
+  "highlight": "The prototype won the awards for best UX, transferability and scalability potential.",
+  "tags": [
+    "Python",
+    "FastAPI",
+    "LLM prompting",
+    "HTML/JS"
+  ],
+  "urls": {
+    "github": "https://github.com/tjayada/fraunhofer-prototype",
+    "demo": null
+  },
+  "demos": [
+    {
+      "type": "image",
+      "url": "https://raw.githubusercontent.com/tjayada/fraunhofer-prototype/refs/heads/main/assets/wochenplan.png",
+      "alt": "Weekly hybrid work schedule view"
+    },
+    {
+      "type": "image",
+      "url": "https://raw.githubusercontent.com/tjayada/fraunhofer-prototype/refs/heads/main/assets/massnahmen.png",
+      "alt": "Team measures view with AI feedback"
+    }
+  ]
+}

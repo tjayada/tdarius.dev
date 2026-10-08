@@ -1,16 +1,24 @@
 {
-  "num_projects": 10,
-  "colors": [
-    "#E5FFE5", 
-    "#E5F3FF", 
-    "#FFE5E5", 
-    "#F5E5FF", 
-    "#FFF5E5", 
+  "projects": [
+    "robop",
+    "robot-detector",
+    "robot-renderer",
+    "dino-wm-tokens",
+    "straya-mapp",
+    "prepbot-3000",
+    "fraunhofer-prototype",
+    "braincraft",
+    "gaze-anticipation",
+    "reinforcement-reservoirs"
+  ],
+  "palette": [
     "#E5F3FF",
+    "#FFE5E5",
+    "#E5FFE5",
+    "#F5E5FF",
+    "#FFF5E5",
     "#E5FFFF",
-    "#F0FFE5", 
-    "#FFFFE5", 
-    "#E5FFFF", 
-    "#E5F3FF"
+    "#FFE5F5",
+    "#FFFFE5"
   ]
 }

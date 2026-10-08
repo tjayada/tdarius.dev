@@ -1,0 +1,76 @@
+{
+  "name": "Tjark Darius",
+  "tagline": "ML researcher and engineer working on robot perception with vision foundation models.",
+  "bio": "I am a Master's student in Cognitive Science (AI and Neuroinformatics) at Osnabrück University and wrote my thesis at the German Aerospace Center (DLR), Institute of Robotics and Mechatronics, on robot-agnostic, training-free camera-to-robot pose estimation. Before that I was a research intern at the Institut de Robòtica i Informàtica Industrial (IRI) in Barcelona, spent two years in data science at Testsieger.de, and a year in production ML and software engineering at a startup.",
+  "status": "Currently looking for positions in industry or research, or a PhD, in computer vision, machine learning, world models and robotics, available now in Germany or elsewhere in Europe.",
+  "location": "",
+  "contactText": "My thesis is handed in and I'm figuring out what comes next, whether a position in industry or research or a PhD in computer vision, machine learning, world models or robotics. I am available now, based in Germany and open to anywhere in Europe, so if that sounds like a fit, let's talk.",
+  "links": [
+    {
+      "label": "Email",
+      "url": "mailto:hello@tdarius.dev"
+    },
+    {
+      "label": "CV",
+      "url": ""
+    },
+    {
+      "label": "GitHub",
+      "url": "https://github.com/tjayada"
+    },
+    {
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/tjark-d-479524383/"
+    },
+    {
+      "label": "Google Scholar",
+      "url": ""
+    }
+  ],
+  "publications": [
+    {
+      "title": "Training-Free 6D Robot Pose Estimation with Neural Memory Objects",
+      "authors": "S. Jung*, L. Klüpfel*, T. Darius*, R. Triebel, M. Durner (* equal contribution)",
+      "venue": "ICRA 2026 Workshop on Open Challenges for Rigorous Robot Perception, Vienna",
+      "links": [
+        {
+          "label": "PDF",
+          "url": "https://icra2026-rigorous-perception.github.io/pdf/jung2026a.pdf"
+        },
+        {
+          "label": "Workshop",
+          "url": "https://icra2026-rigorous-perception.github.io/"
+        }
+      ]
+    }
+  ],
+  "publicationsNote": "A follow-up paper is under review at ICRA 2027.",
+  "awards": [
+    {
+      "title": "Lower Saxony State Scholarship for excellent academic achievements",
+      "note": "2023"
+    },
+    {
+      "title": "Fraunhofer Research Summer Camp: best UX, transferability and scalability",
+      "note": "2025"
+    }
+  ],
+  "earlierWork": [
+    {
+      "title": "Market offers bot",
+      "url": "https://github.com/tjayada/market-offers-bot"
+    },
+    {
+      "title": "Mensa Telegram bot",
+      "url": "https://github.com/tjayada/mensa-telegram-bot"
+    },
+    {
+      "title": "Sudoku solver with computer vision",
+      "url": "https://github.com/tjayada/sudoku_solver_cv"
+    },
+    {
+      "title": "Chess bot",
+      "url": "https://github.com/tjayada/tjayada_basic_ai"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "title": "Face-Centric Gaze Anticipation",
+  "context": "Internship, IRI Barcelona",
+  "period": "Nov 2024 – Mar 2025",
+  "abstract": "Predict where a person wearing a camera will look next, paying extra attention to faces. During my internship at the Institut de Robòtica i Informàtica Industrial (IRI) in Barcelona I extended the audio-visual gaze anticipation model of Lai et al. (ECCV 2024) with a GPU face-parsing pipeline to bias it toward social cues, an area the authors noted had been neglected. The face-biased variant did not improve the test metrics, and the write-up documents why, including the difficulty of reproducing the original results.",
+  "highlight": "",
+  "tags": [
+    "PyTorch",
+    "Face parsing",
+    "Ego4D",
+    "Weights & Biases"
+  ],
+  "urls": {
+    "github": "https://github.com/tjayada/CSTS-FP",
+    "demo": null
+  },
+  "demos": [
+    {
+      "type": "image",
+      "file": "demo_0.webp",
+      "fit": "contain",
+      "alt": "Predicted gaze heatmap over an egocentric video frame"
+    },
+    {
+      "type": "image",
+      "file": "demo_1.webp",
+      "fit": "contain",
+      "alt": "Predicted gaze heatmap over an egocentric video frame"
+    },
+    {
+      "type": "image",
+      "file": "demo_2.webp",
+      "fit": "contain",
+      "alt": "Predicted gaze heatmap over an egocentric video frame"
+    }
+  ]
+}

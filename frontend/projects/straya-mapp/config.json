@@ -1,0 +1,26 @@
+{
+  "title": "Straya Mapp",
+  "context": "For fun",
+  "period": "Dec 2025 – Jan 2026",
+  "abstract": "Pick your best travel photos with locally run AI models and replay the trip on a map. A Python pipeline exports a photo library, cleans it and scores each image for aesthetics, and a vanilla JavaScript frontend then shows the keepers on an OpenStreetMap layer with clustering and an animated chronological tour, either fully offline or behind Supabase authentication.",
+  "highlight": "The pipeline runs entirely locally, so the photos never leave your machine.",
+  "tags": [
+    "Python",
+    "JavaScript",
+    "Leaflet.js",
+    "Aesthetic scoring",
+    "Supabase"
+  ],
+  "urls": {
+    "github": "https://github.com/tjayada/straya-mapp",
+    "demo": null
+  },
+  "demos": [
+    {
+      "type": "video",
+      "file": "demo_0.mp4",
+      "poster": "poster.webp",
+      "alt": "Screen recording of the animated photo tour across a map of Australia"
+    }
+  ]
+}

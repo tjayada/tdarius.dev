@@ -1,0 +1,35 @@
+{
+  "title": "PrepBot-3000",
+  "context": "Side project",
+  "period": "Sep 2025 – Jan 2026",
+  "abstract": "Prepare for a chess opponent in the thirty seconds before the game starts. PrepBot-3000 pulls a Lichess opponent's recent games, ranks their openings and habits by information gain, and asks a language model for short preparation advice, all served as a live web app.",
+  "highlight": "It is deployed and usable by anyone with a Lichess account.",
+  "tags": [
+    "Python",
+    "Lichess API",
+    "Information gain",
+    "LLM",
+    "Vercel"
+  ],
+  "urls": {
+    "github": "https://github.com/tjayada/PrepBot-3000",
+    "demo": "https://prepbot-3000.vercel.app"
+  },
+  "demos": [
+    {
+      "type": "image",
+      "url": "https://raw.githubusercontent.com/tjayada/PrepBot-3000/refs/heads/main/images/screenshot-public-table.png",
+      "alt": "PrepBot-3000 public table of analysed games"
+    },
+    {
+      "type": "image",
+      "url": "https://raw.githubusercontent.com/tjayada/PrepBot-3000/refs/heads/main/images/screenshot-home.png",
+      "alt": "PrepBot-3000 home screen"
+    },
+    {
+      "type": "image",
+      "url": "https://raw.githubusercontent.com/tjayada/PrepBot-3000/refs/heads/main/images/screenshot-dashboard.png",
+      "alt": "PrepBot-3000 opponent dashboard"
+    }
+  ]
+}

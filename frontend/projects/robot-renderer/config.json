@@ -1,0 +1,25 @@
+{
+  "title": "robot-renderer",
+  "context": "Part of my master’s thesis",
+  "period": "2026",
+  "abstract": "Turn a robot's description into views of it from many angles, so other models can recognise it. This PyTorch3D renderer takes a URDF, meshes, camera intrinsics and a joint configuration and returns multi-view templates with ground-truth poses, depth maps and a visible-surface point cloud. Views are sampled on a Fibonacci sphere, scored by visible surface and rendered in one batched pass.",
+  "highlight": "Six robots ship built in, and a new one registers from its URDF and a small adapter class.",
+  "tags": [
+    "Python",
+    "PyTorch3D",
+    "URDF",
+    "Forward kinematics",
+    "pip package"
+  ],
+  "urls": {
+    "github": "https://github.com/tjayada/robot-renderer",
+    "demo": null
+  },
+  "demos": [
+    {
+      "type": "image",
+      "file": "demo_0.webp",
+      "alt": "Rendered templates of the six built-in robots, Franka Panda, Baxter, OWI-535, KUKA LBR Med 7, xArm 7 and Meca500"
+    }
+  ]
+}

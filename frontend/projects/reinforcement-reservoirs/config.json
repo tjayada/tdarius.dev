@@ -1,0 +1,26 @@
+{
+  "title": "Reinforcement Reservoirs",
+  "context": "Replication study",
+  "period": "Sep – Oct 2024",
+  "abstract": "Can a small, untrained reservoir stand in for a deep network in reinforcement learning? This repository replicates Chang and Futagami (2019) and Matsuki (2022) on Gymnasium tasks such as CarRacing and Atari Breakout, with training and evaluation scripts, the trained reservoirs and the resulting data.",
+  "highlight": "This is possibly the first public implementation of both papers, which were released without code.",
+  "tags": [
+    "Python",
+    "Reservoir computing",
+    "reservoirpy",
+    "Gymnasium",
+    "Reinforcement learning"
+  ],
+  "urls": {
+    "github": "https://github.com/tjayada/Reinforcement-Reservoirs",
+    "demo": null
+  },
+  "demos": [
+    {
+      "type": "video",
+      "file": "demo_0.mp4",
+      "poster": "poster.webp",
+      "alt": "Evaluation run of the replicated Chang and Futagami (2019) agent on CarRacing"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "title": "ROBOP",
+  "context": "Master’s thesis at DLR",
+  "period": "Mar – Sep 2026",
+  "abstract": "Find where a camera is relative to a robot arm from one photo, for any robot, with no calibration target and no training. ROBOP applies training-free BOP object pose estimators to robot arms, since at a known joint configuration the arm is a rigid object whose geometry follows from its URDF, and evaluates them on six robots under one protocol.",
+  "highlight": "With refinement, the best generic estimator beats synthetically trained robot-specific models and trails only those fine-tuned on real images, though inference is considerably slower.",
+  "tags": [
+    "Python",
+    "PyTorch",
+    "NeMO",
+    "FoundPose",
+    "GigaPose",
+    "MegaPose"
+  ],
+  "urls": {
+    "github": "https://github.com/tjayada/ROBOP",
+    "demo": null,
+    "paper": "https://icra2026-rigorous-perception.github.io/pdf/jung2026a.pdf"
+  },
+  "demos": [
+    {
+      "type": "image",
+      "url": "https://raw.githubusercontent.com/tjayada/ROBOP/refs/heads/main/docs/pipeline_overview.png",
+      "fit": "contain",
+      "background": "#ffffff",
+      "alt": "Overview of the ROBOP pipeline, in which URDF and joint state become a posed mesh, templates and a detection, which feed NeMO, MegaPose, GigaPose and FoundPose"
+    }
+  ]
+}

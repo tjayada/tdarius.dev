@@ -1,112 +1,169 @@
-# Project Showcase
+# tdarius.dev
 
-A config-based project portfolio that loads projects from numbered directories.
+My project portfolio: a static site that reads a list of projects from
+`frontend/projects.json` and renders one full-screen section per project. There is
+no build step, no framework and no backend. The `frontend` directory is deployed
+as-is.
 
 ## Structure
 
-At the root of the `frontend` directory, create a `projects.json` file that defines the number of projects and their colors:
+```
+frontend/
+├── index.html          page skeleton (header, section container, dot navigation)
+├── app.js              loads profile.json, projects.json and the config.json files
+├── theme.js            colour theme toggle, shared by index.html and 404.html (not deferred, so a stored choice applies before the first paint)
+├── style.css           styles for index.html and 404.html (light + dark mode)
+├── 404.html            not-found page
+├── profile.json        intro and contact sections: bio, links, publications, earlier work
+├── projects.json       ordered list of project folders + colour palette
+├── assets/             favicons and the 404 image
+└── projects/
+    ├── robop/
+    │   └── config.json
+    ├── robot-renderer/
+    │   ├── config.json
+    │   └── demo_0.webp
+    └── ...
+```
+
+The page is: intro section, one section per project, contact section.
+
+`projects.json` decides which projects are shown and in which order:
 
 ```json
 {
-  "num_projects": 10,
-  "colors": [
-    "#E5FFE5", 
-    "#E5F3FF", 
-    "#FFE5E5", 
-    "#F5E5FF", 
-    "#FFF5E5", 
-    "#E5F3FF",
-    "#E5FFFF",
-    "#F0FFE5", 
-    "#FFFFE5", 
-    "#E5FFFF", 
-    "#E5F3FF"
+  "projects": ["robop", "robot-detector", "dino-wm-tokens", "straya-mapp"],
+  "palette": ["#E5F3FF", "#FFE5E5", "#E5FFE5", "#F5E5FF"]
+}
+```
+
+- `projects`: folder names under `frontend/projects/`, top to bottom. Reordering or
+  removing a project only means editing this list.
+- `palette`: background colours, cycled through in order (the intro takes the first
+  one). A project can override its colour with a `"color"` field in its `config.json`.
+  In dark mode the colour is used as a tint on a dark background.
+
+## profile.json
+
+Everything on the intro and contact sections. Empty strings and entries without a
+`url` are simply not shown, so unused fields can stay in the file.
+
+```json
+{
+  "name": "Tjark Darius",
+  "tagline": "One line on what you do.",
+  "bio": "Two or three sentences.",
+  "status": "What you are looking for, and from when.",
+  "location": "City, Country",
+  "contactText": "Short text for the contact section.",
+  "links": [
+    {"label": "Email", "url": "mailto:you@example.com"},
+    {"label": "CV", "url": "/assets/cv.pdf"},
+    {"label": "GitHub", "url": "https://github.com/username"}
+  ],
+  "publications": [
+    {
+      "title": "Paper title",
+      "authors": "A. Author, B. Author",
+      "venue": "Workshop or conference, year",
+      "links": [{"label": "PDF", "url": "https://…"}]
+    }
+  ],
+  "publicationsNote": "Optional line below the list, e.g. a paper under review.",
+  "awards": [
+    {"title": "Scholarship or prize", "note": "2023"}
+  ],
+  "earlierWork": [
+    {"title": "Older project", "url": "https://github.com/username/repo"}
   ]
 }
 ```
 
-- `num_projects`: The highest project number (inclusive). For example, `10` means projects 0 through 10 will be loaded (11 projects total).
-- `colors`: An array of background colors for each project. The array should have `num_projects + 1` colors (one for each project from 0 to num_projects).
+`earlierWork` is rendered as one sentence on the contact section, followed by a link to
+the GitHub profile taken from `links`.
 
-Each project should be in its own directory following this pattern:
+The header (name, LinkedIn link, theme toggle) is static HTML in `index.html` and
+`404.html`, so it shows before any JSON has loaded. Change the LinkedIn URL there as well.
 
-```
-frontend/
-  ├── projects.json
-  ├── project_0/
-  │   ├── config.json
-  │   ├── demo_0.jpeg
-  │   ├── demo_1.mp4
-  │   └── ...
-  ├── project_1/
-  │   ├── config.json
-  │   ├── demo_0.png
-  │   └── ...
-  └── project_2/
-      ├── config.json
-      └── ...
-```
-
-## Config.json Format
-
-Each `config.json` file should contain:
+## config.json
 
 ```json
 {
   "title": "Project Name",
-  "firstCommit": "Jan 2023",
-  "lastCommit": "Mar 2024",
-  "abstract": "Project description...",
+  "context": "Master's thesis",
+  "period": "Apr – Sep 2026",
+  "abstract": "One plain-language sentence first, then the technical detail.",
+  "highlight": "One line with the main result or outcome.",
+  "tags": ["Python", "PyTorch3D"],
+  "color": "#E5F3FF",
   "urls": {
     "github": "https://github.com/username/repo",
-    "demo": "https://demo-url.com"
+    "demo": "https://demo-url.com",
+    "paper": "https://…/paper.pdf"
   },
   "demos": [
-    {"type": "image", "file": "demo_0.png"},
-    {"type": "video", "file": "demo_1.mp4"},
-    {"type": "image", "url": "https://your-cdn.com/path/to/demo_0.webp"},
-    {"type": "video", "url": "https://your-cdn.com/path/to/demo_1.mp4"}
+    {"type": "image", "file": "demo_0.webp"},
+    {"type": "video", "file": "demo_1.mp4", "poster": "poster.webp"},
+    {"type": "image", "url": "https://raw.githubusercontent.com/user/repo/main/figure.png", "fit": "contain", "background": "#ffffff", "alt": "What the figure shows"}
   ]
 }
 ```
 
-## Demo Files
+- `context` and `period` form the line under the title ("Master's thesis · Apr – Sep
+  2026"). The intro's project index shows the context and the year(s) only.
+- `highlight` is shown as an emphasised line under the abstract. Leave it empty if
+  there is no result worth stating.
+- `tags` become small chips. Keep them to the technologies a reader would search for.
+- `urls.github`, `urls.demo` and `urls.paper` are shown as buttons. Clicking the demo
+  media opens the live demo if there is one, otherwise the repository.
+- `color` (optional) overrides the palette colour.
 
-- **Important**: Demo files must be explicitly listed in the `demos` array in `config.json`
+### Demos
 
-- Each demo entry should specify:
-  - `type`: Either `"image"` or `"video"`
-  - **Either `file` OR `url`** (not both):
-    - `file`: Local filename (e.g., `"demo_0.png"`, `"demo_1.mp4"`) - files must be in the project directory
-    - `url`: Full URL to hosted media (e.g., `"https://your-cdn.com/path/to/demo.webp"`)
+Each entry in `demos` needs a `type` (`image` or `video`) and either `file` (a file in
+the project folder) or `url` (a hosted file, for example a raw GitHub URL, which keeps
+the repo small and saves hosting bandwidth). Hosted files must use `https://`; the
+page's content security policy (in `index.html`) blocks anything else.
 
-- **Using URLs (`url`)**:
-	- Upload optimized images/videos to a CDN or storage service (e.g., Supabase Storage, Cloudinary, AWS S3)
-  - Use the full public URL in the `url` field
-  - Allows for better performance, caching, and bandwidth optimization
-- **Local files (`file`)**:
-	- Supported image formats: `.jpg`, `.jpeg`, `.png`, `.gif`, `.webp`
-	- Supported video formats: `.mp4`, `.webm`, `.ogg`
+Optional fields:
 
-- If multiple demos exist for a project, they will automatically cycle every 3 seconds
-- Videos will autoplay (muted) when they become active
+- `fit`: `cover` (default, fills the 16:9 frame and crops) or `contain` (shows the
+  whole image with bars, good for figures and diagrams).
+- `background`: colour behind a `contain` image, usually the figure's own background.
+  Without it, a blurred copy of the image fills the frame behind it.
+- `alt`: alt text for screen readers. Defaults to "`<title>` demo".
+- `poster` / `posterUrl` (videos): a still shown while the video loads, and instead of
+  it where autoplay is refused (for example iOS Low Power Mode). Worth adding for
+  every video.
 
-## Adding Projects
+If a project has several demos they cross-fade every 3.5 seconds while the project is
+in view. Videos are muted, loop, and only start loading when their project scrolls
+into view.
 
-1. Create a new directory: `project_N` (where N is the next number)
-2. Add a `config.json` file with your project information (including the `demos` array)
-3. **Option A (Local files)**: Add demo files as `demo_0.ext`, `demo_1.ext`, etc. in the project directory
-4. **Option B (External URLs)**: Upload optimized media to your storage/CDN and use the URLs
-5. List all demos in the `demos` array of `config.json` using either `file` (local) or `url` (external)
-6. **Important**: Update `num_projects` in `frontend/projects.json` to `N` (if N is the highest project number)
-7. **Important**: Add a color to the `colors` array in `frontend/projects.json` for the new project
+Images: `.webp`, `.png`, `.jpg`, `.gif`. Videos: `.mp4`, `.webm`. Keep local files
+small, for example `magick in.png -resize 1600x -quality 82 out.webp`.
+
+## Adding a project
+
+1. Create `frontend/projects/<slug>/` with a `config.json` (and local demo files if any).
+   The slug is the folder name, the section id and the URL hash, so use letters, digits
+   and hyphens only; `intro` and `contact` are taken by the fixed sections.
+2. Add `<slug>` to the `projects` list in `frontend/projects.json` where it should appear.
+
+Each section can be linked directly as `https://www.tdarius.dev/#<slug>`.
+
+## Running locally
+
+Any static file server works, for example:
+
+```bash
+cd frontend && python3 -m http.server 8000
+```
 
 ## Features
 
-- Config-based project and demo file listing
-- Multiple demo support with automatic cycling
-- Responsive design
-- Keyboard navigation (Arrow keys)
-- Progress bar navigation
-- Smooth scrolling with snap points
-
+- Profile, projects and demos defined in JSON, no code changes needed to add one
+- Full-screen sections with scroll snapping, dot navigation and keyboard navigation
+  (arrow keys, Page Up/Down, Home/End, Space)
+- Dark mode follows the OS and can be toggled in the header (the choice is remembered in the browser), reduced-motion support, lazy-loaded media
+- Works on phones: slides snap one per screen, the intro splits into three screens (text, publications and awards, project index), and the dot navigation hides itself while not scrolling

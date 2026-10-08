@@ -1,0 +1,41 @@
+{
+  "title": "robot-detector",
+  "context": "Part of my master’s thesis",
+  "period": "2026",
+  "abstract": "Find the robot arm in an image without training on that robot. Built on CNOS, it matches SAM or FastSAM segmentation proposals against DINOv2 features of templates rendered with robot-renderer. Given a dataset and the robot's joint configuration, it writes per-frame bounding boxes and segmentation masks that the pose estimators in ROBOP consume.",
+  "highlight": "Ships loaders, configs and detections for six arms across five datasets, with zero robot-specific training.",
+  "tags": [
+    "Python",
+    "PyTorch",
+    "CNOS",
+    "SAM",
+    "FastSAM",
+    "DINOv2"
+  ],
+  "urls": {
+    "github": "https://github.com/tjayada/robot-detector",
+    "demo": null
+  },
+  "demos": [
+    {
+      "type": "image",
+      "url": "https://raw.githubusercontent.com/tjayada/robot-detector/refs/heads/main/figures/lbr_med7_sam.png",
+      "alt": "Detected KUKA LBR Med 7 arm with bounding box and segmentation mask"
+    },
+    {
+      "type": "image",
+      "url": "https://raw.githubusercontent.com/tjayada/robot-detector/refs/heads/main/figures/xarm_sam.png",
+      "alt": "Detected UFACTORY xArm 7 with bounding box and segmentation mask"
+    },
+    {
+      "type": "image",
+      "url": "https://raw.githubusercontent.com/tjayada/robot-detector/refs/heads/main/figures/craves_sam.png",
+      "alt": "Detected OWI-535 arm with bounding box and segmentation mask"
+    },
+    {
+      "type": "image",
+      "url": "https://raw.githubusercontent.com/tjayada/robot-detector/refs/heads/main/figures/realsense_franka_sam.png",
+      "alt": "Detected Franka Panda arm with bounding box and segmentation mask"
+    }
+  ]
+}

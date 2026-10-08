@@ -1,0 +1,41 @@
+{
+  "title": "DINO-WM Tokens",
+  "context": "Independent study",
+  "period": "Oct 2026",
+  "abstract": "How much can you shrink a visual world model before planning breaks? DINO-WM plans over 196 DINOv2 patch tokens per frame, while LeWM plans over a single learned vector and is about 60 times faster. This study keeps the frozen DINOv2 encoder, reduces its grid to 1, 4, 16 or 49 tokens by pooling or a small learned readout, retrains only the predictor, and measures planning success against planning time on TwoRoom and PushT.",
+  "highlight": "On TwoRoom, four frozen tokens match the full grid at 100% success in 1/29 of the planning time. On PushT a learned readout recovers part of what pooling discards.",
+  "tags": [
+    "PyTorch",
+    "DINOv2",
+    "World models",
+    "CEM planning",
+    "stable-worldmodel"
+  ],
+  "urls": {
+    "github": "https://github.com/tjayada/dino-wm-tokens",
+    "demo": null
+  },
+  "demos": [
+    {
+      "type": "image",
+      "url": "https://raw.githubusercontent.com/tjayada/dino-wm-tokens/refs/heads/main/results/figures/tokens_pusht.png",
+      "fit": "contain",
+      "background": "#ffffff",
+      "alt": "Planning success versus token budget on PushT"
+    },
+    {
+      "type": "image",
+      "url": "https://raw.githubusercontent.com/tjayada/dino-wm-tokens/refs/heads/main/results/videos/pusht/r4/env_0.gif",
+      "fit": "contain",
+      "background": "#f8f8f8",
+      "alt": "A planner episode on PushT with a four-token readout next to the expert episode and the goal frame"
+    },
+    {
+      "type": "image",
+      "url": "https://raw.githubusercontent.com/tjayada/dino-wm-tokens/refs/heads/main/results/figures/tokens_tworoom.png",
+      "fit": "contain",
+      "background": "#ffffff",
+      "alt": "Planning success versus token budget on TwoRoom"
+    }
+  ]
+}

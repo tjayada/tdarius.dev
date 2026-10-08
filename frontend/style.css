@@ -1,0 +1,930 @@
+/* tdarius.dev – shared styles for index.html and 404.html */
+
+:root {
+  color-scheme: light dark;
+  --text: #1a1a1a;
+  --text-body: #333;
+  --text-muted: #666;
+  --page-bg: #f3f2ef;
+  --project-bg: #f3f4f6;   /* set per project from projects.json / config.json, used by dark mode */
+  --chip: rgba(0, 0, 0, 0.05);
+  --chip-border: rgba(0, 0, 0, 0.12);
+  --demo-bg: #fff;
+  --surface: #ffffff;
+  --on-text: #fff;         /* text placed on a var(--text) background */
+  --dot: #cfcfcf;
+  --dot-hover: #999;
+  --dot-active: #333;
+  --focus: #2563eb;
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  --shadow-small: 0 4px 20px rgba(0, 0, 0, 0.15);
+  --radius: 12px;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  /* the dot navigation replaces the scrollbar */
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--text-body);
+  background: var(--page-bg);
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+/* sections receive focus from the navigation (see goTo in app.js); no ring around a whole slide */
+.project:focus-visible {
+  outline: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- site header ---------- */
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 28px;
+  pointer-events: none; /* only the links and the toggle are clickable */
+}
+
+.site-header a {
+  pointer-events: auto;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.site-header nav {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.site-header nav a {
+  color: var(--text-muted);
+}
+
+.site-header nav a:hover {
+  color: var(--text);
+}
+
+.theme-toggle {
+  pointer-events: auto;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid var(--chip-border);
+  border-radius: 50%;
+  background: var(--chip);
+  color: var(--text);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  background: var(--text);
+  color: var(--on-text);
+}
+
+/* the intro already shows the name, so name and links appear once you scroll */
+.site-name,
+.site-link {
+  transition: opacity 0.3s ease;
+}
+
+.site-header.hidden .site-name,
+.site-header.hidden .site-link {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---------- project sections ---------- */
+
+/* Light mode is neutral; the project colour (--project-bg) only tints dark mode */
+.project {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  scroll-snap-align: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 140px 60px 80px;
+  background: var(--page-bg);
+}
+
+.project-content {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  width: 100%;
+  max-width: 1400px;
+}
+
+/* alternate text/demo sides */
+.project:nth-child(even) .project-content {
+  flex-direction: row-reverse;
+}
+
+.text-field,
+.demo-field {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.text-field {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.project-title {
+  font-size: clamp(1.8rem, 1.2rem + 2vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+
+.project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.5em;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* "Context · Period", wraps between the two halves on narrow screens */
+.project-meta span {
+  white-space: nowrap;
+}
+
+.project-meta span + span::before {
+  content: "·";
+  margin-right: 0.5em;
+}
+
+.project-abstract {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  max-width: 600px;
+}
+
+.project-highlight {
+  padding-left: 14px;
+  border-left: 3px solid var(--text);
+  font-size: 1.02rem;
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--text);
+  max-width: 600px;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+}
+
+.tag {
+  padding: 3px 10px;
+  border: 1px solid var(--chip-border);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-body);
+  background: var(--chip);
+}
+
+.text-link {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--text-muted);
+}
+
+.text-link:hover {
+  text-decoration-color: currentColor;
+}
+
+/* ---------- buttons and links ---------- */
+
+.project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border: 1.5px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--text);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.button:hover {
+  background: var(--text);
+  color: var(--on-text);
+}
+
+.button-large {
+  padding: 14px 28px;
+  font-size: 1.05rem;
+}
+
+.button-primary {
+  background: var(--text);
+  color: var(--on-text);
+  box-shadow: var(--shadow-small);
+}
+
+.button-primary:hover {
+  transform: translateY(-2px);
+}
+
+/* ---------- intro section ---------- */
+
+/* Desktop hero: a 2x2 grid. Row 1 centres text and project index against each
+   other, row 2 stretches publications and awards to one height. The column and
+   screen wrappers dissolve so the four blocks are direct grid children placed by
+   grid area (the awards card sits in the publications screen in the DOM); on
+   phones the wrappers take over again (see the small-screens section). */
+.intro .project-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "text index"
+    "publications awards";
+  column-gap: 60px;
+  row-gap: 20px;
+  align-items: center;
+}
+
+.intro-main,
+.intro-aside,
+.intro-screen {
+  display: contents;
+}
+
+.intro-text { grid-area: text; }
+.intro-index { grid-area: index; }
+.intro-publications { grid-area: publications; align-self: stretch; }
+.intro-awards { grid-area: awards; align-self: stretch; }
+
+/* the bio is one notch smaller than a project abstract so the hero fits a laptop screen */
+.intro .project-abstract {
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+
+.intro-name {
+  font-size: clamp(2.2rem, 1.4rem + 2.6vw, 3.4rem);
+}
+
+.intro-tagline {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--text);
+  margin-top: -6px;
+}
+
+.intro-heading {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.publication-list,
+.index-list {
+  list-style: none;
+}
+
+.publication {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+.publication + .publication {
+  margin-top: 10px;
+}
+
+.publication-title {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.publication-authors,
+.publication-venue,
+.publication-note,
+.index-meta {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+
+.publication-links {
+  display: flex;
+  gap: 14px;
+  font-size: 0.92rem;
+}
+
+.publication-note {
+  margin-top: 10px;
+}
+
+/* reference material lives in cards: publications, awards, project index */
+.intro-publications,
+.intro-index,
+.intro-awards {
+  padding: 20px 26px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.index-list li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  column-gap: 12px;
+  padding: 8px 0;
+  border-top: 1px solid var(--chip-border);
+}
+
+.index-list .index-meta {
+  text-align: right;
+}
+
+.index-list li:first-child {
+  border-top: 0;
+}
+
+.index-link {
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.index-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.award-list li {
+  display: flex;
+  flex-direction: column;
+  padding: 5px 0;
+  line-height: 1.45;
+  font-size: 0.95rem;
+}
+
+/* ---------- contact section ---------- */
+
+/* A column: the content is centred in the space above the footer, which sits at
+   the bottom edge and can grow without overlapping anything. */
+.contact {
+  flex-direction: column;
+  padding-bottom: 24px;
+}
+
+.contact .project-content {
+  justify-content: center;
+  margin: auto 0;
+}
+
+.contact-main {
+  max-width: 640px;
+  align-items: center;
+  text-align: center;
+}
+
+.contact-main .project-links {
+  justify-content: center;
+}
+
+.site-footer {
+  display: flex;
+  width: 100%;
+  padding-top: 32px;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.earlier-work {
+  max-width: 560px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.colophon {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 0.5em;
+  font-size: 0.85rem;
+}
+
+.colophon span {
+  white-space: nowrap;
+}
+
+.colophon span + span::before {
+  content: "·";
+  margin-right: 0.5em;
+}
+
+/* ---------- demo media ---------- */
+
+.demo-field {
+  display: block;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.demo-field:hover {
+  transform: scale(1.02);
+}
+
+.demo-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--demo-bg);
+  box-shadow: var(--shadow);
+}
+
+.demo-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.demo-slide.active {
+  opacity: 1;
+}
+
+.demo-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.demo-media.fit-contain {
+  object-fit: contain;
+}
+
+/* blurred copy of a "contain" image filling the frame behind it */
+.demo-backdrop {
+  position: absolute;
+  inset: -10%;
+  width: 120%;
+  height: 120%;
+  object-fit: cover;
+  filter: blur(24px) saturate(1.2);
+  opacity: 0.85;
+}
+
+.demo-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* ---------- dot navigation ---------- */
+
+.progress-bar {
+  position: fixed;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 10px;
+  border-radius: 30px;
+  background: var(--surface);
+  box-shadow: var(--shadow-small);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: opacity 0.3s ease;
+}
+
+.progress-dot {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: var(--dot);
+  cursor: pointer;
+  transition: height 0.3s ease, background 0.3s ease, transform 0.3s ease;
+}
+
+/* 24px touch target around the 12px dot */
+.progress-dot::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+}
+
+.progress-dot:hover {
+  background: var(--dot-hover);
+  transform: scale(1.2);
+}
+
+.progress-dot[aria-current="true"] {
+  height: 32px;
+  background: var(--dot-active);
+  transform: none;
+}
+
+/* ---------- loading / error state ---------- */
+
+.status {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  background: var(--page-bg);
+}
+
+.status[hidden] {
+  display: none;
+}
+
+/* ---------- 404 page ---------- */
+
+.error-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px 40px;
+}
+
+.error-container {
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+}
+
+.error-code {
+  font-size: clamp(5rem, 10vw, 8rem);
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+
+.error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.error-image-link {
+  display: block;
+  max-width: 500px;
+  margin: 30px auto;
+  transition: transform 0.3s ease;
+}
+
+.error-image-link:hover {
+  transform: scale(1.02);
+}
+
+.error-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  background: #fff; /* the image is transparent with black lettering */
+  box-shadow: var(--shadow);
+}
+
+.error-title {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.error-message {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 36px;
+  color: var(--text-muted);
+}
+
+/* ---------- small screens ---------- */
+
+@media (max-width: 768px) {
+  .site-header {
+    padding: 14px 16px;
+  }
+
+  .project {
+    padding: 56px 16px 32px;
+  }
+
+  .project-title {
+    font-size: 1.6rem;
+  }
+
+  .intro-name {
+    font-size: 2.1rem; /* the hero name stays larger than a project title */
+  }
+
+  /* always two lines on phones: name, then the rest, without a dangling separator */
+  .colophon {
+    flex-direction: column;
+    row-gap: 2px;
+  }
+
+  .colophon span + span::before {
+    content: none;
+  }
+
+  .contact {
+    padding-bottom: 20px;
+  }
+
+  .project-content,
+  .project:nth-child(even) .project-content {
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .text-field,
+  .demo-field {
+    flex: none;
+    width: 100%;
+  }
+
+  .demo-field:hover {
+    transform: none;
+  }
+
+  .text-field {
+    gap: 14px;
+  }
+
+  .project-abstract,
+  .intro .project-abstract {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .project-highlight {
+    font-size: 0.95rem;
+  }
+
+  /* The intro becomes three full-height screens, each vertically centred like a
+     project slide: text, publications + awards, project index. The two column
+     wrappers dissolve so the screens can be reordered. */
+  .intro {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .intro .project-content {
+    display: flex;
+    row-gap: 0;
+  }
+
+  .intro-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 56px 0; /* header clearance on top, the same below so the content is truly centred */
+    scroll-snap-align: start;
+  }
+
+  .intro-screen.screen-publications { order: 1; } /* text stays first */
+  .intro-screen.screen-index { order: 2; }
+
+  .intro-publications + .intro-awards {
+    margin-top: 64px;
+  }
+
+  /* every index row stacks title and meta, so the rows look alike, and the
+     rows are compact so the card fits even a short phone screen */
+  .index-list li {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5px 0;
+    line-height: 1.3;
+  }
+
+  .index-link {
+    font-size: 0.95rem;
+  }
+
+  .index-list .index-meta {
+    font-size: 0.85rem;
+    text-align: left;
+  }
+
+  .intro-tagline {
+    font-size: 1.1rem;
+  }
+
+  /* the dot navigation only shows while scrolling */
+  .progress-bar {
+    right: 10px;
+    gap: 10px;
+    padding: 12px 7px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+  }
+
+  .progress-bar.visible {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease;
+  }
+
+  .progress-dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  .progress-dot[aria-current="true"] {
+    height: 26px;
+  }
+}
+
+/* ---------- reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .demo-slide,
+  .demo-field,
+  .progress-dot,
+  .progress-bar,
+  .button,
+  .site-name,
+  .site-link,
+  .error-image-link {
+    transition: none;
+  }
+
+  .demo-field:hover,
+  .error-image-link:hover,
+  .button-primary:hover {
+    transform: none;
+  }
+}
+
+/* ---------- dark mode ---------- */
+/* Last so it wins over the light rules above with equal specificity.
+   Active when the OS prefers dark (unless the toggle forced light) or when the
+   toggle forced dark. The variable block is deliberately repeated for the two
+   cases: the media-query copy makes dark mode work before (or without) theme.js,
+   and CSS cannot share one declaration block across a media-query boundary.
+   Guarded so browsers without color-mix() keep the light theme. */
+
+/* the toggle forced light on a dark OS: native controls and overscroll follow */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+@supports (background: color-mix(in oklab, #fff 50%, #000)) {
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --text: #f2f2f2;
+      --text-body: #d6d6d6;
+      --text-muted: #a3a3a3;
+      --page-bg: #141416;
+      --demo-bg: #1c1c1e;
+      --surface: rgba(28, 28, 30, 0.85);
+      --on-text: #141416;
+      --dot: #4a4a4a;
+      --dot-hover: #8a8a8a;
+      --dot-active: #f2f2f2;
+      --focus: #60a5fa;
+      --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      --shadow-small: 0 4px 20px rgba(0, 0, 0, 0.5);
+      --chip: rgba(255, 255, 255, 0.1);
+      --chip-border: rgba(255, 255, 255, 0.24);
+    }
+
+    :root:not([data-theme="light"]) .project {
+      background: color-mix(in oklab, var(--project-bg) 14%, #141416);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --text: #f2f2f2;
+    --text-body: #d6d6d6;
+    --text-muted: #a3a3a3;
+    --page-bg: #141416;
+    --demo-bg: #1c1c1e;
+    --surface: rgba(28, 28, 30, 0.85);
+    --on-text: #141416;
+    --dot: #4a4a4a;
+    --dot-hover: #8a8a8a;
+    --dot-active: #f2f2f2;
+    --focus: #60a5fa;
+    --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    --shadow-small: 0 4px 20px rgba(0, 0, 0, 0.5);
+    --chip: rgba(255, 255, 255, 0.1);
+    --chip-border: rgba(255, 255, 255, 0.24);
+  }
+
+  :root[data-theme="dark"] .project {
+    background: color-mix(in oklab, var(--project-bg) 14%, #141416);
+  }
+}

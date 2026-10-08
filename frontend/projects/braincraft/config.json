@@ -1,0 +1,25 @@
+{
+  "title": "BrainCraft Challenge",
+  "context": "Challenge entry, task 1",
+  "period": "Jul 2025",
+  "abstract": "Evolve a small brain-like network that keeps a simulated agent alive. The BrainCraft Challenge asks for a biologically inspired, rate-based network of up to 1000 neurons that solves a simple decision task with no reward signal. My entry searches the network weights with an evolutionary algorithm, scores each candidate with a handcrafted fitness function and uses multiprocessing to evaluate the population in parallel.",
+  "highlight": "It scored 12.7 on the task 1 leaderboard with a genetic algorithm, while the top entries, at around 15, are hand-crafted.",
+  "tags": [
+    "Python",
+    "NumPy",
+    "Evolutionary algorithms",
+    "Multiprocessing"
+  ],
+  "urls": {
+    "github": "https://github.com/tjayada/braincraft",
+    "demo": null
+  },
+  "demos": [
+    {
+      "type": "video",
+      "file": "demo_0.mp4",
+      "alt": "Screen recording of the evolved agent navigating the maze",
+      "poster": "poster.webp"
+    }
+  ]
+}
